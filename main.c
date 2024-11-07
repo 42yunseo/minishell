@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 
 	exit_status = 0;
 	use_args(argc, argv);
+	set_signals();
 	init_envp(envp);
 	exit_status = reader_loop();
 	//shell_exit(exit_status);

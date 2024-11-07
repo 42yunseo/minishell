@@ -86,7 +86,6 @@ void	expand_word(t_token *token)
 	size_t	len;
 	char	*result;
 
-	//printf("token->word : %s\n", token->word);
 	len = 0;
 	result = NULL;
 	while (token->word[len] != '\0')
