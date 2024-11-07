@@ -17,6 +17,7 @@
 
 void	shell_exit(int exit_status)
 {
+	free_envp();
 	exit(exit_status);
 }
 
@@ -32,9 +33,9 @@ int	main(int argc, char **argv, char **envp)
 
 	exit_status = 0;
 	use_args(argc, argv);
-	set_signals();
+	//set_signals();
 	init_envp(envp);
 	exit_status = reader_loop();
-	//shell_exit(exit_status);
+	shell_exit(0);
 	return (exit_status);
 }

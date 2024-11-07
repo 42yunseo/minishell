@@ -23,21 +23,21 @@ char	***get_envp(void)
 
 void	set_envp(char **new_envp)
 {
-	char	***old_envpp;
-
-	old_envpp = get_envp();
-	free_envp(*old_envpp);
-	*old_envpp = new_envp;
+	free_envp();
+	*get_envp() = new_envp;
 }
 
-void	free_envp(char **envp)
+void	free_envp(void)
 {
-	int	i;
+	char	**envp;
+	int		i;
 
+	envp = *get_envp();
 	i = 0;
 	while (envp[i] != NULL)
 		free(envp[i++]);
 	free(envp);
+	envp = NULL;
 }
 
 int	get_envp_len(void)

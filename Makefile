@@ -6,13 +6,13 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/05 21:21:25 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/07 18:48:16 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -lreadline -lft -Llibft
 IFLAGS = -Ilibft/ -Iincludes/
 
@@ -50,7 +50,7 @@ clean :
 	rm -rf $(OBJS)
 	make clean -sC $(LIBFT_DIR)
 
-fclean : 
+fclean :
 	make clean
 	rm -rf $(NAME)
 	rm -rf $(LIBFT)

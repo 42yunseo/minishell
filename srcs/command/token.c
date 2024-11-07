@@ -20,7 +20,7 @@ enum e_token_type	get_token_type(char *word)
 	if (word[0] == '<')
 	{
 		if (word[1] == '<')
-			type = w_append;
+			type = w_here_doc;
 		else
 			type = w_input_redirect;
 	}
@@ -48,34 +48,6 @@ t_token	*ft_token_new(char *word)
 	return (token);
 }
 
-// size_t	get_token_len(const char *line)
-// {
-// 	size_t	len;
-// 	char	symbol;
-
-// 	len = 0;
-// 	if (line[len] == '|')
-// 		len++;
-// 	else if (ft_strchr("<>", line[len]) != NULL)
-// 	{
-// 		symbol = line[len++];
-// 		if (line[len] == symbol)
-// 			len++;
-// 	}
-// 	else if (line[len] == '\'' || line[len] == '\"')
-// 	{
-// 		symbol = line[len++];
-// 		while (line[len] != '\0' && line[len] != symbol)
-// 			len++;
-// 		if (line[len] == symbol)
-// 			len++;
-// 	}
-// 	else
-// 		while (line[len] != '\0' && !ft_strchr(" \t\n<>|", line[len]))
-// 			len++;
-// 	return (len);
-// }
-
 size_t	get_token_len(const char *line)
 {
 	size_t	len;
@@ -98,7 +70,7 @@ size_t	get_token_len(const char *line)
 			{
 				symbol = line[len++];
 				while (line[len] != '\0' && line[len] != symbol)
-				len++;
+					len++;
 			}
 			len++;
 		}
@@ -117,16 +89,25 @@ t_list	*token_line(const char *line)
 	while (*line != '\0')
 	{
 		if (*line == ' ' || *line == '\t' || *line == '\n')
-		{
 			line++;
-			continue ;
+		else
+		{
+			len = get_token_len(line);
+			token = ft_token_new(ft_substr(line, 0, len));
+			ft_lstadd_back(&token_list, ft_lstnew(token));
+			line += len;
 		}
-		len = get_token_len(line);
-		token = ft_token_new(ft_substr(line, 0, len));
-		ft_lstadd_back(&token_list, ft_lstnew(token));
-		line += len;
 	}
 	return (token_list);
+}
+
+void	ft_token_free(void *ptr)
+{
+	t_token	*token;
+
+	token = ptr;
+	free(token->word);
+	free(token);
 }
 
 /*

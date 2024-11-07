@@ -24,7 +24,6 @@ void	add_str(char **src, char *part)
 		*src = ft_strdup("");
 	if (part == NULL)
 		part = ft_strdup("");
-	//printf("TRY add_str (\"%s\" + \"%s\")\n", *src, part);
 	result = ft_strjoin(*src, part);
 	free(*src);
 	free(part);
@@ -66,7 +65,7 @@ int	quote_expand(char *word, char **result)
 	if (word[len] == quote)
 	{
 		add_str(result, NULL);
-		return 2;
+		return (2);
 	}
 	while (word[len] != '\0' && word[len] != quote)
 	{
@@ -107,4 +106,20 @@ void	expand_word(t_token *token)
 	}
 	free(token->word);
 	token->word = result;
+}
+
+void	expand_token(t_list *token_list)
+{
+	t_list	*ptr;
+	t_token	*token;
+
+	ptr = token_list;
+	while (ptr != NULL)
+	{
+		token = ptr->content;
+		if (token->type == w_word)
+			expand_word(token);
+		printf("tok : %s\n", token->word);
+		ptr = ptr->next;
+	}
 }

@@ -52,13 +52,14 @@ void	dispose_command(t_cmd *command);
 
 // token.c
 t_list	*token_line(const char *line);
+void	ft_token_free(void *ptr);
 
 int		parse_command(const char *line);
 int		read_command(void);
 int		reader_loop(void);
 
 // expansion.c
-void	expand_word(t_token *token);
+void	expand_token(t_list *token_list);
 
 // type.c
 int		is_isf(char c);
@@ -74,7 +75,7 @@ int		is_quote(char c);
 ls -l | wc -l < a
 같은 경우 입력을 ls -l 의 결과로 받지 않고, a로 입력을 받음. (파이프 출력이 무시됨.)
 
-ls -l > a | wc -l 
+ls -l > a | wc -l
 위의 경우도 마찬가지. ls -l의 결과가 wc로 넘어가지 않고, a로 출력됨.
 
 */

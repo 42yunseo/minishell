@@ -18,37 +18,18 @@
 
 #include <stdio.h>
 
-/*
-
-bash-5.2$ echo "$HOME"
-/Users/yungyoseo
-bash-5.2$ echo '$HOME'
-$HOME
-bash-5.2$ echo "'$HOME"
-'/Users/yungyoseo
-bash-5.2$ echo '"$HOME"'
-"$HOME"
-
-*/
-
 int	parse_command(const char *line)
 {
 	//int 		result;
 	//int			need_here_doc;
 	t_list	*token_list;
-	t_token	*cur_token;
 	//t_word_list	*list;
 
 	//need_here_doc = 0;
 	token_list = token_line(line);
-	while (token_list != NULL)
-	{
-		cur_token = token_list->content;
-		if (cur_token->type == w_word)
-			expand_word(cur_token);
-		printf("tok : %s\n", cur_token->word);
-		token_list = token_list->next;
-	}
+	expand_token(token_list);
+	ft_lstclear(&token_list, ft_token_free);
+	free(token_list);
 	//return (result);
 	return (0);
 }
@@ -59,7 +40,7 @@ int	read_command(void)
 	char	*line;
 
 	line = readline("minishell$ ");
-	if (line == NULL || *line == '\0')
+	if (line == NULL)
 		return (1);
 	add_history(line);
 	result = parse_command(line);

@@ -16,7 +16,7 @@
 // envp.c
 char	***get_envp(void);
 void	set_envp(char **new_envp);
-void	free_envp(char **envp);
+void	free_envp(void);
 int		get_envp_len(void);
 void	init_envp(char **envp);
 
