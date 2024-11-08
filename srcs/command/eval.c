@@ -20,7 +20,7 @@
 
 int	parse_command(const char *line)
 {
-	//int 		result;
+	// int 		result;
 	//int			need_here_doc;
 	t_list	*token_list;
 	//t_word_list	*list;
@@ -28,9 +28,9 @@ int	parse_command(const char *line)
 	//need_here_doc = 0;
 	token_list = token_line(line);
 	expand_token(token_list);
-	ft_lstclear(&token_list, ft_token_free);
-	free(token_list);
-	//return (result);
+	// make_cmd(token_list);
+	//ft_lstclear(&token_list, ft_token_free);
+	//free(token_list);
 	return (0);
 }
 
@@ -51,16 +51,17 @@ int	read_command(void)
 int	reader_loop(void)
 {
 	int		last_exit_status;
-	t_cmd	*cur_command;
+	t_list	*cmd_list;
+	//t_cmd	*cur_command;
 
 	last_exit_status = 0;
 	while (1)
 	{
 		if (read_command() == 0)
 		{
-			cur_command = *get_global_command();
+			cmd_list = *get_global_command();
 			//last_exit_status = execute_command(cur_command);
-			dispose_command(cur_command);
+			free(cmd_list);
 		}
 		else
 		{

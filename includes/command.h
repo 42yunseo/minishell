@@ -15,7 +15,7 @@
 
 # include "libft.h"
 
-enum e_token_type
+enum e_word_type
 {
 	w_input_redirect,
 	w_output_redirect,
@@ -28,28 +28,34 @@ enum e_token_type
 typedef struct s_token
 {
 	char				*word;
-	enum e_token_type	type;
+	enum e_word_type	type;
 }	t_token;
 
-// typedef struct s_word_list
-// {
-// 	char				*word;
-// 	struct s_word_list	*next;
-// }	t_word_list;
+typedef struct s_redirect
+{
+	enum e_word_type	type;
+	int					fd;
+	char				*filename;
+}	t_redirect;
 
 typedef struct s_cmd
 {
 	char			*cmd;
 	t_list			*args;
+	int				pflag;
 	int				pipe[2];
-	t_list			*fds_to_close;
+	t_list			*redirects;
+	int				here_doc_flag;
+	char			*here_doc_str;
+	int				origin_stdin;
+	int				origin_stdout;
+	int				origin_stderr;
 	struct s_cmd	*next_cmd;
 }	t_cmd;
 
 // command.c
-t_cmd	**get_global_command(void);
-void	set_global_command(t_cmd *new_command);
-void	dispose_command(t_cmd *command);
+t_list	**get_global_command(void);
+void	set_global_command(t_list *new_command);
 
 // token.c
 t_list	*token_line(const char *line);

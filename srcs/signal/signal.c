@@ -14,6 +14,8 @@
 #include "readline/readline.h"
 #include <unistd.h>
 
+#include <stdio.h>
+
 void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
@@ -22,10 +24,6 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}
-	if (signo == SIGQUIT)
-	{
-		write(1, "\a", 1);
 	}
 }
 
@@ -41,6 +39,4 @@ void	set_signals(int sig_int, int sig_quit)
 		signal(SIGQUIT, SIG_DFL);
 	if (sig_quit == SIG_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
-	if (sig_quit == SIG_SHELL)
-		signal(SIGQUIT, signal_handler);
 }

@@ -13,9 +13,9 @@
 #include "libft.h"
 #include "command.h"
 
-enum e_token_type	get_token_type(char *word)
+enum e_word_type	get_token_type(char *word)
 {
-	enum e_token_type	type;
+	enum e_word_type	type;
 
 	if (word[0] == '<')
 	{

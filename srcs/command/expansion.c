@@ -90,12 +90,7 @@ void	expand_word(t_token *token)
 	while (token->word[len] != '\0')
 	{
 		if (token->word[len] == '$')
-		{
-			if (token->word[len + 1] == '\'' || token->word[len + 1] == '\"')
-				len++;
-			else
-				len += dollar_expand(&token->word[len], &result);
-		}
+			len += dollar_expand(&token->word[len], &result);
 		else if (is_quote(token->word[len]))
 			len += quote_expand(&token->word[len], &result);
 		else
