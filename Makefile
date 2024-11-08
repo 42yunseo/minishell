@@ -6,7 +6,7 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/07 18:48:16 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/07 22:25:55 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,13 @@ ENVS = env envp
 COMMAND_DIR = ./srcs/command/
 COMMANDS = command eval token expansion type
 
+SIGNAL_DIR = ./srcs/signal/
+SIGNALS = signal
+
 SRCS =	$(addsuffix .c, $(addprefix $(BUILTIN_DIR)builtin_, $(BUILTINS))) \
 		$(addsuffix .c, $(addprefix $(ENV_DIR), $(ENVS))) \
 		$(addsuffix .c, $(addprefix $(COMMAND_DIR), $(COMMANDS))) \
+		$(addsuffix .c, $(addprefix $(SIGNAL_DIR), $(SIGNALS))) \
 		main.c
 
 OBJS = $(SRCS:.c=.o)

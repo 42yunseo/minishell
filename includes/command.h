@@ -42,6 +42,7 @@ typedef struct s_cmd
 	char			*cmd;
 	t_list			*args;
 	int				pipe[2];
+	t_list			*fds_to_close;
 	struct s_cmd	*next_cmd;
 }	t_cmd;
 
