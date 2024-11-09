@@ -6,15 +6,23 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/07 22:25:55 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/09 16:34:44 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+
 LFLAGS = -lreadline -lft -Llibft
 IFLAGS = -Ilibft/ -Iincludes/
+
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)
+    LFLAGS = -lreadline -lft -Llibft -L/opt/homebrew/opt/readline/lib
+    IFLAGS = -Ilibft/ -Iincludes/ -I/opt/homebrew/opt/readline/include
+endif
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a

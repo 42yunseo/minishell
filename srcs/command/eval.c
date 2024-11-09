@@ -12,11 +12,11 @@
 
 #include "command.h"
 #include "libft.h"
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "env.h"
 
-#include <stdio.h>
 
 int	parse_command(const char *line)
 {
@@ -28,9 +28,10 @@ int	parse_command(const char *line)
 	//need_here_doc = 0;
 	token_list = token_line(line);
 	expand_token(token_list);
-	// make_cmd(token_list);
-	//ft_lstclear(&token_list, ft_token_free);
-	//free(token_list);
+	//make_cmd(token_list);
+	ft_lstclear(&token_list, NULL);
+//	ft_lstclear(&token_list, ft_token_free);
+	free(token_list);
 	return (0);
 }
 

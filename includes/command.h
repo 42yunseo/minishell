@@ -41,16 +41,17 @@ typedef struct s_redirect
 typedef struct s_cmd
 {
 	t_list			*args;
-	int				pflag;
-	int				pipe[2];
 	t_list			*redirects;
-	int				here_doc_flag;
-	char			*here_doc_str;
 	int				origin_stdin;
 	int				origin_stdout;
-	int				origin_stderr;
-	struct s_cmd	*next_cmd;
 }	t_cmd;
+
+typedef struct s_pipe
+{
+	t_cmd	*cmd1;
+	t_cmd	*cmd2;
+	int		pipe_fd[2];	
+}	t_pipe;
 
 // command.c
 t_list	**get_global_command(void);
