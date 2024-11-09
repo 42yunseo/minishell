@@ -33,7 +33,8 @@ t_cmd	*ft_cmd_new(void)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (cmd == NULL)
+		exit(EXIT_FAILURE);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	return (cmd);
 }
-

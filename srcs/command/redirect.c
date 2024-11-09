@@ -12,7 +12,13 @@
 
 #include "command.h"
 
-t_redirect	*ft_redir_new()
+t_redirect	*ft_redir_new(enum e_word_type type, t_token *token)
 {
+	t_redirect	*redir;
 
+	redir = (t_redirect *)malloc(sizeof(t_redirect));
+	if (redir == NULL)
+		exit(EXIT_FAILURE);
+
+	return (redir);
 }

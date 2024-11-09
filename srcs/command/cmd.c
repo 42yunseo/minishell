@@ -12,17 +12,19 @@
 
 #include "command.h"
 
-void	token_to_cmd(t_token *token, t_cmd *cmd)
+t_cmd	*tokens_to_cmd(t_list *token_list)
 {
-	static enum e_word_type	before_type;
+	t_cmd	*cmd;
+	t_token	*token;
 
-	if (token->type == w_input_redirect)
-		ft_lstadd_back(&cmd->redirects, ft_lstnew());
-	if (token->type == w_output_redirect)
-	if (token->type == w_here_doc)
-	if (token->type == w_append)
-	if (token->type == w_pipe)
-	if (token->type == w_word)
+	cmd = ft_cmd_new();
+	token = token_list->content;
+	while (token_list != NULL)
+	{
+		if (token->type >= w_input_redirect && token->type <= w_append)
+			if (make_redir(token->type, token_list->next) != 0)
+	}
+	return (cmd);
 }
 
 void	make_cmd(t_list *token_list)
@@ -31,12 +33,19 @@ void	make_cmd(t_list *token_list)
 	t_cmd	*cur_cmd;
 	t_token	*token;
 
+	cmd_list = NULL;
 	cur_cmd = NULL;
 	while (token_list != NULL)
 	{
+		cur_cmd = tokens_to_cmd(token_list);
+		if (cur_cmd == NULL)
+			exit(EXIT_FAILURE);
+		ft_lstadd_back(&cmd_list, ft_lstnew(cur_cmd));
 		token = token_list->content;
-		token_to_cmd(token, cur_cmd);
-		token_list = token_list->next;
+		while (token->type != NULL && token->type != pipe)
+			token_list = token_list->next;
+		if (token->type == pipe)
+			token_list = token_list->next;
 	}
 	set_global_command(cmd_list);
 }

@@ -19,8 +19,8 @@ enum e_word_type
 {
 	w_input_redirect,
 	w_output_redirect,
-	w_here_doc,
 	w_append,
+	w_here_doc,
 	w_pipe,
 	w_word
 };
@@ -40,7 +40,6 @@ typedef struct s_redirect
 
 typedef struct s_cmd
 {
-	char			*cmd;
 	t_list			*args;
 	int				pflag;
 	int				pipe[2];
@@ -56,6 +55,7 @@ typedef struct s_cmd
 // command.c
 t_list	**get_global_command(void);
 void	set_global_command(t_list *new_command);
+t_cmd	*ft_cmd_new(void);
 
 // token.c
 t_list	*token_line(const char *line);
