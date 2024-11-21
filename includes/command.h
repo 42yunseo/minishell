@@ -116,7 +116,6 @@ int			execute_node(t_ast_node *node);
 // t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type);
 void		make_ast(t_list *token_list);
 
-
 #endif
 
 /*

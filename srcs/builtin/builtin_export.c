@@ -22,5 +22,5 @@ int	builtin_export(t_list *list)
 
 	// 	list = list->next;
 	// }
-	return (EXECUTION_SUCCESS);
+	return (EXECUTE_SUCCESS);
 }

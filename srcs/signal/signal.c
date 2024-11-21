@@ -39,3 +39,4 @@ void	set_signals(int sig_int, int sig_quit)
 	if (sig_quit == SIG_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
 }
+

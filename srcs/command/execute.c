@@ -11,41 +11,54 @@
 /* ************************************************************************** */
 
 #include "command.h"
-#include <unistd.h>
-
 #include "builtin.h"
+#include "my_signal.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
+int	execute_simple(t_list *args)
+{
+	pid_t	pid;
+	int		status;
+	int		result;
 
-// int	execute_builtin(t_cmd *cmd)
-// {
-
-// }
-
-// int	execute_simple(t_cmd *cmd)
-// {
-
-// }
-
-// int	isabuiltin(t_list *cmd)
-// {
-	
-// }
+	pid = fork();
+	if (pid < 0)
+	{
+		return (-1);
+	}
+	if (pid == 0)		// child
+	{
+		set_signals(SIG_DEFAULT, SIG_DEFAULT);
+		// execve
+	}
+	else				// parent
+	{
+		// signal setting
+		waitpid(pid, &status, 0);
+		result = WEXITSTATUS(status);
+		set_signals(SIG_DEFAULT, SIG_DEFAULT);
+	}
+	return (result);
+}
 
 int	execute_cmd(t_cmd *cmd)
 {
 	int	result;
 
+	result = 0;
 	// cmd->origin_stdin = dup(STDIN_FILENO);
 	// cmd->origin_stdout = dup(STDOUT_FILENO);
-	// if (isabuiltin(cmd->args))
-	// 	result = execute_builtin(cmd->args);
-	// else
-	// 	result = execute_simple(cmd->args);
+	if (isabuiltin(cmd->args))
+		result = execute_builtin(cmd->args);
+	else
+		result = execute_simple(cmd->args);
 	// dup2(cmd->origin_stdin, STDIN_FILENO);
 	// dup2(cmd->origin_stdout, STDOUT_FILENO);
 	// close(cmd->origin_stdin);
 	// close(cmd->origin_stdout);
-	result = builtin_echo(cmd->args);
+	//result = builtin_echo(cmd->args);
 	return (result);
 }
 

@@ -28,7 +28,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 BUILTIN_DIR = ./srcs/builtin/
-BUILTINS = echo cd pwd export unset env exit
+BUILTINS = echo cd pwd export unset env exit util
 
 ENV_DIR = ./srcs/env/
 ENVS = env envp

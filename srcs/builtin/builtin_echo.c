@@ -19,7 +19,7 @@ int	builtin_echo(t_list *list)
 	display_return = 1;
 	while (list != NULL)
 	{
-		if (ft_strncmp(list->content, "-n", 2) == 0)
+		if (ft_strncmp(list->content, "-n", 3) == 0)
 			display_return = 0;
 		else
 			break ;
@@ -34,5 +34,5 @@ int	builtin_echo(t_list *list)
 	}
 	if (display_return == 1)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (EXECUTION_SUCCESS);
+	return (EXECUTE_SUCCESS);
 }

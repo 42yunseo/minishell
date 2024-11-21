@@ -18,7 +18,7 @@ int	builtin_pwd(t_list *list)
 
 	list = (void *)list;
 	cwd = getcwd(NULL, 0);
-	ft_putstr_fd(cwd, STDOUT_FILENO);
+	ft_putendl_fd(cwd, STDOUT_FILENO);
 	free(cwd);
-	return (EXECUTION_SUCCESS);
+	return (EXECUTE_SUCCESS);
 }

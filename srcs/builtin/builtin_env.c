@@ -24,5 +24,5 @@ int	builtin_env(t_list *list)
 		ft_putendl_fd(*envp, STDOUT_FILENO);
 		envp++;
 	}
-	return (EXECUTION_SUCCESS);
+	return (EXECUTE_SUCCESS);
 }

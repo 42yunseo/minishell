@@ -16,5 +16,5 @@ int	builtin_exit(t_list *list)
 {
 	list = (void *)list;
 	ft_putendl_fd("exit", STDERR_FILENO);
-	return (EXECUTION_SUCCESS);
+	return (EXECUTE_SUCCESS);
 }

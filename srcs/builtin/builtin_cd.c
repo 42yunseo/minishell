@@ -38,16 +38,16 @@ int	builtin_cd(t_list *list)
 
 	dirname = get_dirname(list);
 	if (dirname == NULL)
-		return (EXECUTION_FAILURE);
+		return (EXECUTE_FAILURE);
 	if (chdir(dirname) == 0)
 	{
 		ft_setenv("PWD", getcwd(NULL, 0));
-		return (EXECUTION_SUCCESS);
+		return (EXECUTE_SUCCESS);
 	}
 	else
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		perror(dirname);
-		return (EXECUTION_FAILURE);
+		return (EXECUTE_FAILURE);
 	}
 }
