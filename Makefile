@@ -6,7 +6,7 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/09 16:34:44 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/20 23:08:15 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ ENV_DIR = ./srcs/env/
 ENVS = env envp
 
 COMMAND_DIR = ./srcs/command/
-COMMANDS = command eval token expansion type
+COMMANDS = command eval token expansion type cmd ast execute
 
 SIGNAL_DIR = ./srcs/signal/
 SIGNALS = signal

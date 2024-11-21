@@ -55,30 +55,28 @@ size_t	get_token_len(const char *line)
 
 	len = 0;
 	if (line[len] == '|')
-		len++;
-	else if (ft_strchr("<>", line[len]) != NULL)
+		return (1);
+	if (line[len] == '<' || line[len] == '>')
 	{
 		symbol = line[len++];
 		if (line[len] == symbol)
-			len++;
+			return (2);
+		return (1);
 	}
-	else
+	while (line[len] != '\0' && !ft_strchr(" \t\n<>|", line[len]))
 	{
-		while (line[len] != '\0' && !ft_strchr(" \t\n<>|", line[len]))
+		if (is_quote(line[len]))
 		{
-			if (is_quote(line[len]))
-			{
-				symbol = line[len++];
-				while (line[len] != '\0' && line[len] != symbol)
-					len++;
-			}
-			len++;
+			symbol = line[len++];
+			while (line[len] != '\0' && line[len] != symbol)
+				len++;
 		}
+		len++;
 	}
 	return (len);
 }
 
-t_list	*token_line(const char *line)
+t_list	*tokenize_line(const char *line)
 {
 	t_token	*token;
 	t_list	*token_list;

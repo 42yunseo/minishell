@@ -11,8 +11,79 @@
 /* ************************************************************************** */
 
 #include "command.h"
+#include <unistd.h>
 
-int	execute_builtin(t_cmd *cmd)
+#include "builtin.h"
+
+
+// int	execute_builtin(t_cmd *cmd)
+// {
+
+// }
+
+// int	execute_simple(t_cmd *cmd)
+// {
+
+// }
+
+// int	isabuiltin(t_list *cmd)
+// {
+	
+// }
+
+int	execute_cmd(t_cmd *cmd)
 {
+	int	result;
 
+	// cmd->origin_stdin = dup(STDIN_FILENO);
+	// cmd->origin_stdout = dup(STDOUT_FILENO);
+	// if (isabuiltin(cmd->args))
+	// 	result = execute_builtin(cmd->args);
+	// else
+	// 	result = execute_simple(cmd->args);
+	// dup2(cmd->origin_stdin, STDIN_FILENO);
+	// dup2(cmd->origin_stdout, STDOUT_FILENO);
+	// close(cmd->origin_stdin);
+	// close(cmd->origin_stdout);
+	result = builtin_echo(cmd->args);
+	return (result);
+}
+
+int	execute_pipe(t_pipe *pipe_node)
+{
+	int	exit_status;
+
+	exit_status = 0;
+	pipe_node->origin_stdin = dup(STDIN_FILENO);
+	pipe_node->origin_stdout = dup(STDOUT_FILENO);
+	if (pipe(pipe_node->pipe_fd))
+		return (-1);
+	if (pipe_node->l_node != NULL)
+		exit_status = execute_node(pipe_node->l_node);
+	if (pipe_node->l_node != NULL)
+		exit_status = execute_node(pipe_node->r_node);
+	return (exit_status);
+}
+
+int	execute_node(t_ast_node *node)
+{
+	int	exit_status;
+
+	exit_status = 0;
+	if (node->type == node_cmd && node->u_value.cmd != NULL)
+		exit_status = execute_cmd(node->u_value.cmd);
+	if (node->type == node_pipe && node->u_value.pipe != NULL)
+		exit_status = execute_pipe(node->u_value.pipe);
+	return (exit_status);
+}
+
+
+int	execute_command(t_ast *ast)
+{
+	if (ast == NULL)
+		return (-1);
+	if (ast->root == NULL)
+		return (-1);
+	ast->last_exit_status = execute_node(ast->root);
+	return (ast->last_exit_status);
 }

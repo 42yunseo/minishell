@@ -31,11 +31,19 @@ typedef struct s_token
 	enum e_word_type	type;
 }	t_token;
 
+enum e_redirect_type
+{
+	r_input,
+	r_output,
+	r_append,
+	r_heredoc
+};
+
 typedef struct s_redirect
 {
-	enum e_word_type	type;
-	int					fd;
-	char				*filename;
+	enum e_redirect_type	type;
+	int						fd;
+	char					*filename;
 }	t_redirect;
 
 typedef struct s_cmd
@@ -48,31 +56,66 @@ typedef struct s_cmd
 
 typedef struct s_pipe
 {
-	t_cmd	*cmd1;
-	t_cmd	*cmd2;
-	int		pipe_fd[2];	
+	int					pipe_fd[2];
+	int					origin_stdin;
+	int					origin_stdout;
+	struct s_ast_node	*l_node;
+	struct s_ast_node	*r_node;
 }	t_pipe;
 
-// command.c
-t_list	**get_global_command(void);
-void	set_global_command(t_list *new_command);
-t_cmd	*ft_cmd_new(void);
+enum e_node_type
+{
+	node_cmd,
+	node_pipe
+};
+
+typedef struct s_ast_node
+{
+	enum e_node_type	type;
+	union
+	{
+		t_pipe	*pipe;
+		t_cmd	*cmd;
+	}	u_value;
+}	t_ast_node;
+
+typedef struct s_ast
+{
+	t_ast_node	*root;
+	int			last_exit_status;
+}	t_ast;
+
+//command.c
+t_ast		**get_global_command(void);
+void		set_global_command(t_ast *new_command);
+t_cmd		*ft_cmd_new(void);
 
 // token.c
-t_list	*token_line(const char *line);
-void	ft_token_free(void *ptr);
+t_list		*tokenize_line(const char *line);
+void		ft_token_free(void *ptr);
 
-int		parse_command(const char *line);
-int		read_command(void);
-int		reader_loop(void);
+// eval.c
+int			parse_command(const char *line);
+int			read_command(void);
+int			reader_loop(void);
 
 // expansion.c
-void	expand_token(t_list *token_list);
+void		expand_token(t_list *token_list);
 
 // type.c
-int		is_isf(char c);
-int		is_redirect(char c);
-int		is_quote(char c);
+int			is_isf(char c);
+int			is_redirect(char c);
+int			is_quote(char c);
+
+// execute.c
+int			execute_command(t_ast *cur_command);
+int			execute_node(t_ast_node *node);
+
+// ast.c
+// t_ast		*ft_newast(void);
+// t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type);
+void		make_ast(t_list *token_list);
+
 
 #endif
 

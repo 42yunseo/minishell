@@ -12,19 +12,18 @@
 
 #include "command.h"
 
-t_list	**get_global_command(void)
+t_ast	**get_global_command(void)
 {
-	static t_list	*g_command;
+	static t_ast	*g_command;
 
 	return (&g_command);
 }
 
-void	set_global_command(t_list *new_command)
+void	set_global_command(t_ast *new_command)
 {
-	t_list	**g_command;
+	t_ast	**g_command;
 
 	g_command = get_global_command();
-	// command free;
 	*g_command = new_command;
 }
 

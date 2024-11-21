@@ -17,20 +17,14 @@
 #include <readline/history.h>
 #include "env.h"
 
-
 int	parse_command(const char *line)
 {
-	// int 		result;
-	//int			need_here_doc;
 	t_list	*token_list;
-	//t_word_list	*list;
 
-	//need_here_doc = 0;
-	token_list = token_line(line);
+	token_list = tokenize_line(line);
 	expand_token(token_list);
-	//make_cmd(token_list);
-	ft_lstclear(&token_list, NULL);
-//	ft_lstclear(&token_list, ft_token_free);
+	make_ast(token_list);
+	ft_lstclear(&token_list, free); // 각 단어들은 cmd에서 포인터를 가져간 후 나중에 해제.
 	free(token_list);
 	return (0);
 }
@@ -52,21 +46,19 @@ int	read_command(void)
 int	reader_loop(void)
 {
 	int		last_exit_status;
-	t_list	*cmd_list;
-	//t_cmd	*cur_command;
+	t_ast	*cur_command;
 
 	last_exit_status = 0;
 	while (1)
 	{
 		if (read_command() == 0)
 		{
-			cmd_list = *get_global_command();
-			//last_exit_status = execute_command(cur_command);
-			free(cmd_list);
+			cur_command = *get_global_command();
+			last_exit_status = execute_command(cur_command);
+			// dispose_command();
 		}
 		else
 		{
-			last_exit_status = 0;
 			break ;
 		}
 	}

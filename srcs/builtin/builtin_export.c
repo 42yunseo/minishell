@@ -11,10 +11,16 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "env.h"
 
 int	builtin_export(t_list *list)
 {
 	if (list == NULL)
 		return (builtin_env(NULL));
+	// while (list != NULL)
+	// {
+
+	// 	list = list->next;
+	// }
 	return (EXECUTION_SUCCESS);
 }

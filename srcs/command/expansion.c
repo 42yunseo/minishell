@@ -14,8 +14,6 @@
 #include "libft.h"
 #include "command.h"
 
-#include <stdio.h>
-
 void	add_str(char **src, char *part)
 {
 	char	*result;
@@ -114,7 +112,6 @@ void	expand_token(t_list *token_list)
 		token = ptr->content;
 		if (token->type == w_word)
 			expand_word(token);
-		printf("tok : %s\n", token->word);
 		ptr = ptr->next;
 	}
 }
