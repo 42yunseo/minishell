@@ -40,3 +40,8 @@ void	set_signals(int sig_int, int sig_quit)
 		signal(SIGQUIT, SIG_IGN);
 }
 
+void	init_signal(void)
+{
+	set_signals(SIG_SHELL, SIG_IGNORE);
+	signal(SIGTERM, SIG_IGN);
+}

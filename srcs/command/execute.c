@@ -12,69 +12,68 @@
 
 #include "command.h"
 #include "builtin.h"
-#include "my_signal.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
-int	execute_simple(t_list *args)
-{
-	pid_t	pid;
-	int		status;
-	int		result;
-
-	pid = fork();
-	if (pid < 0)
-	{
-		return (-1);
-	}
-	if (pid == 0)		// child
-	{
-		set_signals(SIG_DEFAULT, SIG_DEFAULT);
-		// execve
-	}
-	else				// parent
-	{
-		// signal setting
-		waitpid(pid, &status, 0);
-		result = WEXITSTATUS(status);
-		set_signals(SIG_DEFAULT, SIG_DEFAULT);
-	}
-	return (result);
-}
+#include <signal.h>
 
 int	execute_cmd(t_cmd *cmd)
 {
 	int	result;
 
 	result = 0;
-	// cmd->origin_stdin = dup(STDIN_FILENO);
-	// cmd->origin_stdout = dup(STDOUT_FILENO);
-	if (isabuiltin(cmd->args))
-		result = execute_builtin(cmd->args);
-	else
-		result = execute_simple(cmd->args);
-	// dup2(cmd->origin_stdin, STDIN_FILENO);
-	// dup2(cmd->origin_stdout, STDOUT_FILENO);
-	// close(cmd->origin_stdin);
-	// close(cmd->origin_stdout);
-	//result = builtin_echo(cmd->args);
+	cmd->origin_stdin = dup(STDIN_FILENO);
+	cmd->origin_stdout = dup(STDOUT_FILENO);
+	//result = execute_redirect(cmd->redirects);
+	if (result == 0 && cmd->args != NULL)
+	{
+		if (isabuiltin(cmd->args))
+			result = execute_builtin(cmd->args);
+		else
+			result = execute_simple(cmd->args);
+	}
+	dup2(cmd->origin_stdin, STDIN_FILENO);
+	dup2(cmd->origin_stdout, STDOUT_FILENO);
+	close(cmd->origin_stdin);
+	close(cmd->origin_stdout);
 	return (result);
+}
+
+void	execute_pipe_child(int pipe_fd[2], t_ast_node *node, int mode)
+{
+	int	status;
+
+	close(pipe_fd[1 - mode]);
+	dup2(pipe_fd[mode], mode);
+	status = execute_node(node);
+	close(pipe_fd[mode]);
+	exit (status);
 }
 
 int	execute_pipe(t_pipe *pipe_node)
 {
-	int	exit_status;
+	int		exit_status;
+	int		pipe_fd[2];
+	pid_t	pid[2];
 
 	exit_status = 0;
-	pipe_node->origin_stdin = dup(STDIN_FILENO);
-	pipe_node->origin_stdout = dup(STDOUT_FILENO);
-	if (pipe(pipe_node->pipe_fd))
+	if (pipe(pipe_fd) == -1)
 		return (-1);
-	if (pipe_node->l_node != NULL)
-		exit_status = execute_node(pipe_node->l_node);
-	if (pipe_node->l_node != NULL)
-		exit_status = execute_node(pipe_node->r_node);
+	pid[0] = fork();
+	if (pid[0] == -1)
+		return (-1);
+	if (pid[0] == 0)
+		execute_pipe_child(pipe_fd, pipe_node->l_node, 1);
+	pid[1] = fork();
+	if (pid[1] == -1)
+	{
+		kill(pid[0], SIGKILL);
+		return (-1);
+	}
+	if (pid[1] == 0)
+		execute_pipe_child(pipe_fd, pipe_node->r_node, 0);
+	wait(&exit_status);
+	wait(&exit_status);
 	return (exit_status);
 }
 
@@ -89,7 +88,6 @@ int	execute_node(t_ast_node *node)
 		exit_status = execute_pipe(node->u_value.pipe);
 	return (exit_status);
 }
-
 
 int	execute_command(t_ast *ast)
 {

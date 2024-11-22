@@ -34,7 +34,7 @@ ENV_DIR = ./srcs/env/
 ENVS = env envp
 
 COMMAND_DIR = ./srcs/command/
-COMMANDS = command eval token expansion type cmd ast execute
+COMMANDS = command eval token expansion type cmd ast execute simple path
 
 SIGNAL_DIR = ./srcs/signal/
 SIGNALS = signal

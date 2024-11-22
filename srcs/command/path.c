@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_signal.h                                        :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunseo <yunseo@student.42gyeongsan.kr>     +#+  +:+       +#+        */
+/*   By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 21:39:43 by yunseo            #+#    #+#             */
-/*   Updated: 2024/11/05 21:39:44 by yunseo           ###   ########.fr       */
+/*   Created: 2024/11/22 16:15:48 by yunseo            #+#    #+#             */
+/*   Updated: 2024/11/22 16:15:49 by yunseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MY_SIGNAL_H
-# define MY_SIGNAL_H
-# include <signal.h>
+#include "env.h"
+#include "libft.h"
 
-# define SIG_DEFAULT	0
-# define SIG_IGNORE		1
-# define SIG_SHELL		2
+void	free_args(char **args)
+{
+	int	i;
 
-void	set_signals(int sig_int, int sig_quit);
-void	init_signal(void);
-#endif
+	i = 0;
+	while (args[i] != NULL)
+		free(args[i++]);
+	free(args);
+}

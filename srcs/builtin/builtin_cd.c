@@ -14,7 +14,7 @@
 #include "env.h"
 #include <stdio.h>
 
-static char	*get_dirname(t_list *list)
+char	*get_dirname(t_list *list)
 {
 	char	*dirname;
 

@@ -56,9 +56,6 @@ typedef struct s_cmd
 
 typedef struct s_pipe
 {
-	int					pipe_fd[2];
-	int					origin_stdin;
-	int					origin_stdout;
 	struct s_ast_node	*l_node;
 	struct s_ast_node	*r_node;
 }	t_pipe;
@@ -115,6 +112,11 @@ int			execute_node(t_ast_node *node);
 // t_ast		*ft_newast(void);
 // t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type);
 void		make_ast(t_list *token_list);
+
+// simple.c
+int			execute_simple(t_list *args);
+
+void		free_args(char **args);
 
 #endif
 

@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	exit_status = 0;
 	use_args(argc, argv);
-	set_signals(SIG_SHELL, SIG_IGNORE);
+	init_signal();
 	init_envp(envp);
 	exit_status = reader_loop();
 	shell_exit(exit_status);

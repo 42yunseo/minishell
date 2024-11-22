@@ -19,6 +19,7 @@ t_redirect	*ft_redir_new(enum e_word_type type, t_token *token)
 	redir = (t_redirect *)malloc(sizeof(t_redirect));
 	if (redir == NULL)
 		exit(EXIT_FAILURE);
-	
+
 	return (redir);
 }
+
