@@ -16,6 +16,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include <stdio.h>
+
 void	execute_child(char **argv, char *cmd_path)
 {
 	char	*cmd;
@@ -23,6 +25,7 @@ void	execute_child(char **argv, char *cmd_path)
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	cmd = *argv;
 	execve(cmd_path, argv, *get_envp());
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
 	exit(127);
@@ -32,11 +35,19 @@ int	execute_parent(int pid)
 {
 	int	status;
 	int	result;
+	int	signo;
 
+	set_signals(SIG_CHILD, SIG_CHILD);
 	result = 0;
 	waitpid(pid, &status, 0);
-	result = WEXITSTATUS(status);
-	ft_putendl_fd(ft_itoa(result), 2);
+	if (WIFSIGNALED(status))
+	{
+		signo = WTERMSIG(status);
+		result = (128 + signo);
+	}
+	else if (WIFEXITED(status))
+		result = WEXITSTATUS(status);
+	set_signals(SIG_SHELL, SIG_IGNORE);
 	return (result);
 }
 
@@ -67,9 +78,11 @@ char	*get_cmd_path(char *cmd)
 	char	*tmp;
 
 	if (access(cmd, X_OK) != -1)
-		return (cmd);
+		return (ft_strdup(cmd));
 	i = 0;
 	paths = ft_split(ft_getenv("PATH"), ':');
+	if (paths == NULL)
+		return (NULL);
 	cmd_path = ft_strjoin("/", cmd);
 	while (paths[i] != NULL)
 	{
@@ -93,19 +106,17 @@ int	execute_simple(t_list *args)
 	char	**argv;
 	char	*cmd_path;
 
-	pid = fork();
-	if (pid < 0)
-	{
-		return (-1);
-	}
+	result = 0;
 	argv = list_to_argv(args);
 	cmd_path = get_cmd_path(*argv);
+	pid = fork();
+	if (pid < 0)
+		return (-1);
 	if (pid == 0)
 		execute_child(argv, cmd_path);
-	else
-		result = execute_parent(pid);
-	free_args(argv);
+	result = execute_parent(pid);
 	if (cmd_path != NULL)
 		free(cmd_path);
+	free_args(argv);
 	return (result);
 }

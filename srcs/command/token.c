@@ -99,7 +99,7 @@ t_list	*tokenize_line(const char *line)
 	return (token_list);
 }
 
-void	ft_token_free(void *ptr)
+void	token_free(void *ptr)
 {
 	t_token	*token;
 
@@ -107,15 +107,3 @@ void	ft_token_free(void *ptr)
 	free(token->word);
 	free(token);
 }
-
-/*
-
-토큰화 규칙
-
-1. 초기 토큰화는 공백문자를 기준으로 한다. (' ', '\t', '\n')
-2. 인용부호 ('\"', '\'')는 인용부호를 한 묶음으로 취급한다.
-
-*/
-
-// $HOME <- 얘를 한 토큰으로.
-// $ HOME

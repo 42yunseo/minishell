@@ -13,6 +13,9 @@
 #include "env.h"
 #include "libft.h"
 
+#include <stdio.h>
+
+
 void	free_args(char **args)
 {
 	int	i;

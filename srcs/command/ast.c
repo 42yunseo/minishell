@@ -46,6 +46,7 @@ t_cmd	*make_cmd(t_list *token_list)
 
 	args = NULL;
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	ft_memset(cmd, 0, sizeof(t_cmd));
 	while (token_list != NULL)
 	{
 		token = token_list->content;
@@ -64,18 +65,25 @@ t_ast_node	*parse_cmd(t_list *token_list)
 	node = ft_new_ast_node(make_cmd(token_list), node_cmd);
 	if (node == NULL)
 		return (NULL);
-	return node;
+	return (node);
 }
 
 void	make_ast(t_list *token_list)
 {
 	t_ast		*ast;
 	t_ast_node	*node;
+	//t_token		*token;
 
 	ast = ft_astnew();
 	set_global_command(ast);
 	while (token_list != NULL)
 	{
+		// token = token_list->content;
+		// if (token->type != w_pipe)
+		// {
+			
+		// }
+
 		node = parse_cmd(token_list);
 		if (node != NULL)
 			ast->root = node;
@@ -90,3 +98,4 @@ void	make_ast(t_list *token_list)
 		}
 	}
 }
+

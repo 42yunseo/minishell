@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "my_signal.h"
+#include "libft.h"
 #include <stdio.h>
 #include "readline/readline.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 void	sigint_handler(int signo)
 {
@@ -26,6 +28,16 @@ void	sigint_handler(int signo)
 	}
 }
 
+void	sig_child(int signo)
+{
+	if (signo == SIGINT)
+		ft_putendl_fd("", 2);
+		//write(1, "\n", 1);
+	if (signo == SIGQUIT)
+		ft_putendl_fd("Quit: 3", 2);
+		//write(1, "Quit: 3\n", 8);
+}
+
 void	set_signals(int sig_int, int sig_quit)
 {
 	if (sig_int == SIG_DEFAULT)
@@ -34,10 +46,14 @@ void	set_signals(int sig_int, int sig_quit)
 		signal(SIGINT, SIG_IGN);
 	if (sig_int == SIG_SHELL)
 		signal(SIGINT, sigint_handler);
+	if (sig_int == SIG_CHILD)
+		signal(SIGINT, sig_child);
 	if (sig_quit == SIG_DEFAULT)
 		signal(SIGQUIT, SIG_DFL);
 	if (sig_quit == SIG_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
+	if (sig_quit == SIG_CHILD)
+		signal(SIGQUIT, sig_child);
 }
 
 void	init_signal(void)

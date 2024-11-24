@@ -42,8 +42,9 @@ enum e_redirect_type
 typedef struct s_redirect
 {
 	enum e_redirect_type	type;
-	int						fd;
 	char					*filename;
+	int						fd;
+	int						oflag;
 }	t_redirect;
 
 typedef struct s_cmd
@@ -89,7 +90,7 @@ t_cmd		*ft_cmd_new(void);
 
 // token.c
 t_list		*tokenize_line(const char *line);
-void		ft_token_free(void *ptr);
+void		token_free(void *ptr);
 
 // eval.c
 int			parse_command(const char *line);
@@ -104,17 +105,27 @@ int			is_isf(char c);
 int			is_redirect(char c);
 int			is_quote(char c);
 
-// execute.c
-int			execute_command(t_ast *cur_command);
-int			execute_node(t_ast_node *node);
 
 // ast.c
 // t_ast		*ft_newast(void);
 // t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type);
 void		make_ast(t_list *token_list);
 
+
+
+// execute.c
+int			execute_command(t_ast *cur_command);
+int			execute_node(t_ast_node *node);
+int			execute_cmd(t_cmd *cmd);
+
 // simple.c
 int			execute_simple(t_list *args);
+
+// pipe.c
+int			execute_pipe(t_pipe *pipe_node);
+
+// redirect.c
+int			execute_redirect(t_list *redirect_list);
 
 void		free_args(char **args);
 

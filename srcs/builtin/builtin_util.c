@@ -43,6 +43,7 @@ int	execute_builtin(t_list *args)
 	char	*cmd;
 	size_t	len;
 
+	fp = NULL;
 	result = 0;
 	cmd = args->content;
 	len = ft_strlen(cmd);

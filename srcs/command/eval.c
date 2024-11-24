@@ -12,10 +12,10 @@
 
 #include "command.h"
 #include "libft.h"
+#include "env.h"
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "env.h"
 
 int	parse_command(const char *line)
 {
@@ -24,7 +24,7 @@ int	parse_command(const char *line)
 	token_list = tokenize_line(line);
 	expand_token(token_list);
 	make_ast(token_list);
-	ft_lstclear(&token_list, free); // 각 단어들은 cmd에서 포인터를 가져간 후 나중에 해제.
+	//ft_lstclear(&token_list, free);
 	free(token_list);
 	return (0);
 }

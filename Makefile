@@ -6,13 +6,14 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/20 23:08:15 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/24 21:47:53 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+
 
 LFLAGS = -lreadline -lft -Llibft
 IFLAGS = -Ilibft/ -Iincludes/
@@ -34,7 +35,10 @@ ENV_DIR = ./srcs/env/
 ENVS = env envp
 
 COMMAND_DIR = ./srcs/command/
-COMMANDS = command eval token expansion type cmd ast execute simple path
+COMMANDS = command eval token expansion type cmd ast path
+
+EXECUTE_DIR = ./srcs/execute/
+EXECUTES = execute simple pipe redirect
 
 SIGNAL_DIR = ./srcs/signal/
 SIGNALS = signal
@@ -42,6 +46,7 @@ SIGNALS = signal
 SRCS =	$(addsuffix .c, $(addprefix $(BUILTIN_DIR)builtin_, $(BUILTINS))) \
 		$(addsuffix .c, $(addprefix $(ENV_DIR), $(ENVS))) \
 		$(addsuffix .c, $(addprefix $(COMMAND_DIR), $(COMMANDS))) \
+		$(addsuffix .c, $(addprefix $(EXECUTE_DIR), $(EXECUTES))) \
 		$(addsuffix .c, $(addprefix $(SIGNAL_DIR), $(SIGNALS))) \
 		main.c
 

@@ -21,6 +21,7 @@ void	shell_exit(int exit_status)
 {
 	free_envp();
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
+	signal(SIGTERM, SIG_DFL);
 	ft_putendl_fd("exit", 2);
 	exit(exit_status);
 }
@@ -35,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	int	exit_status;
 
-	if (!isatty(STDIN_FILENO) || !isatty(STDERR_FILENO))
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
 		return (1);
 	exit_status = 0;
 	use_args(argc, argv);
