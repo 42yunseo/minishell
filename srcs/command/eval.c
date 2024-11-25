@@ -24,7 +24,7 @@ int	parse_command(const char *line)
 	token_list = tokenize_line(line);
 	expand_token(token_list);
 	make_ast(token_list);
-	//ft_lstclear(&token_list, free);
+	ft_lstclear(&token_list, free);
 	free(token_list);
 	return (0);
 }

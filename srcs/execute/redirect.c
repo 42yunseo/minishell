@@ -79,7 +79,7 @@ int	execute_redirect(t_list *redirect_list)
 	int			result;
 
 	result = 0;
-	printf("redirect_list : %p\n", redirect_list);
+	//printf("redirect_list : %p\n", redirect_list);
 	while (redirect_list != NULL)
 	{
 		cur_redirect = redirect_list->content;

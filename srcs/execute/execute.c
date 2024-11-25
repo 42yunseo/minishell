@@ -24,7 +24,7 @@ int	execute_cmd(t_cmd *cmd)
 	cmd->origin_stdin = dup(STDIN_FILENO);
 	cmd->origin_stdout = dup(STDOUT_FILENO);
 	result = execute_redirect(cmd->redirects);
-	printf("redirect result : %d\n", result);
+	//printf("redirect result : %d\n", result);
 	if (result == 0 && cmd->args != NULL)
 	{
 		if (isabuiltin(cmd->args))
