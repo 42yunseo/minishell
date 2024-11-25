@@ -37,14 +37,19 @@ void	set_redirection_type_flag(enum e_word_type type, t_redirect *redir)
 	}
 }
 
-t_redirect	*make_redirection(enum e_word_type type, t_token *token)
+t_redirect	*make_redirection(t_list *token_list)
 {
-	t_redirect	*redir;
+	enum e_word_type	type;
+	t_redirect			*redir;
+	t_token				*token;
 
 	redir = (t_redirect *)malloc(sizeof(t_redirect));
 	if (redir == NULL)
 		return (NULL);
+	token = token_list->content;
+	type = token->type;
 	redir->fd = 0;
+	token_list = token_list->next;
 	redir->filename = token->word;
 	set_redirection_type_flag(type, redir);
 	return (redir);
@@ -55,7 +60,7 @@ int	do_redirect(t_redirect *redirect)
 	int	result;
 
 	result = 0;
-	redirect->fd = open(redirect->filename, redirect->oflag);
+	redirect->fd = open(redirect->filename, redirect->oflag, 0644);
 	if (redirect->fd == -1)
 	{
 		result = 1;
@@ -94,8 +99,13 @@ int	execute_redirect(t_list *redirect_list)
 	return (result);
 }
 
-void	free_redirection(t_redirect *redirection)
+void	free_redirection(void *redirection)
 {
-	free(redirection->filename);
-	free(redirection);
+	t_redirect	*ptr;
+
+	ptr = redirection;
+	if (ptr == NULL)
+		return ;
+	free(ptr->filename);
+	free(ptr);
 }

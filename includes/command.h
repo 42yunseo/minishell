@@ -126,8 +126,18 @@ int			execute_pipe(t_pipe *pipe_node);
 
 // redirect.c
 int			execute_redirect(t_list *redirect_list);
+t_redirect	*make_redirection(t_list *token_list);
+void		free_redirection(void *redirect);
 
+// path.c
 void		free_args(char **args);
+
+// syntax.c
+int			check_token_list(t_list *token_list);
+
+
+// dispose.c
+void		dispose_command();
 
 #endif
 

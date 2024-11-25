@@ -105,5 +105,7 @@ void	token_free(void *ptr)
 
 	token = ptr;
 	free(token->word);
+	token->word = NULL;
 	free(token);
+	token = NULL;
 }

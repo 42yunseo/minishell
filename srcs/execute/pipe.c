@@ -12,6 +12,8 @@
 
 #include "command.h"
 #include <signal.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 void	execute_pipe_child(int pipe_fd[2], t_ast_node *node, int mode)
 {
@@ -41,6 +43,7 @@ int	execute_pipe(t_pipe *pipe_node)
 		return (-1);
 	if (pid[0] == 0)
 		execute_pipe_child(pipe_fd, pipe_node->l_node, 1);
+	close(pipe_fd[1]);
 	pid[1] = fork();
 	if (pid[1] == -1)
 	{
@@ -49,6 +52,7 @@ int	execute_pipe(t_pipe *pipe_node)
 	}
 	if (pid[1] == 0)
 		execute_pipe_child(pipe_fd, pipe_node->r_node, 0);
+	close(pipe_fd[0]);
 	wait(&exit_status);
 	wait(&exit_status);
 	exit(exit_status);

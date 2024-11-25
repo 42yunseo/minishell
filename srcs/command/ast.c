@@ -38,23 +38,29 @@ t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type)
 	return (node);
 }
 
+#include <stdio.h>
+
 t_cmd	*make_cmd(t_list *token_list)
 {
 	t_cmd	*cmd;
-	t_list	*args;
 	t_token	*token;
 
-	args = NULL;
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	ft_memset(cmd, 0, sizeof(t_cmd));
-	while (token_list != NULL)
+	while (token_list != NULL && ((t_token *)token_list)->type != w_pipe)
 	{
 		token = token_list->content;
 		if (token->type == w_word)
-			ft_lstadd_back(&args, ft_lstnew(token->word));
+		{
+			ft_lstadd_back(&cmd->args, ft_lstnew(ft_strdup(token->word)));
+		}
+		// else
+		// {
+		// 	ft_lstadd_back(&cmd->redirects, ft_lstnew(make_redirection(token)));
+
+		// }
 		token_list = token_list->next;
 	}
-	cmd->args = args;
 	return (cmd);
 }
 
@@ -81,7 +87,7 @@ void	make_ast(t_list *token_list)
 		// token = token_list->content;
 		// if (token->type != w_pipe)
 		// {
-			
+
 		// }
 
 		node = parse_cmd(token_list);

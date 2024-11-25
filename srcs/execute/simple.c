@@ -78,22 +78,22 @@ char	*get_cmd_path(char *cmd)
 	char	*tmp;
 
 	if (access(cmd, X_OK) != -1)
-		return (ft_strdup(cmd));
-	i = 0;
+		return (NULL);
 	paths = ft_split(ft_getenv("PATH"), ':');
 	if (paths == NULL)
 		return (NULL);
+	i = 0;
 	cmd_path = ft_strjoin("/", cmd);
 	while (paths[i] != NULL)
 	{
-		tmp = ft_strjoin(paths[i], cmd_path);
+		tmp = ft_strjoin(paths[i++], cmd_path);
 		if (access(tmp, X_OK) != -1)
 		{
 			free(cmd_path);
-			return (tmp);
+			cmd_path = tmp;
+			break ;
 		}
 		free(tmp);
-		i++;
 	}
 	free_args(paths);
 	return (cmd_path);
@@ -109,6 +109,8 @@ int	execute_simple(t_list *args)
 	result = 0;
 	argv = list_to_argv(args);
 	cmd_path = get_cmd_path(*argv);
+	if (cmd_path == NULL)
+		cmd_path = ft_strdup(*argv);
 	pid = fork();
 	if (pid < 0)
 		return (-1);

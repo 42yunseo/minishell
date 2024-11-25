@@ -6,7 +6,7 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/24 21:47:53 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/26 03:49:44 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ ENV_DIR = ./srcs/env/
 ENVS = env envp
 
 COMMAND_DIR = ./srcs/command/
-COMMANDS = command eval token expansion type cmd ast path
+COMMANDS = command eval token expansion type cmd ast path syntax dispose
 
 EXECUTE_DIR = ./srcs/execute/
 EXECUTES = execute simple pipe redirect

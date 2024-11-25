@@ -20,13 +20,17 @@
 int	parse_command(const char *line)
 {
 	t_list	*token_list;
+	int		result;
 
 	token_list = tokenize_line(line);
 	expand_token(token_list);
-	make_ast(token_list);
-	ft_lstclear(&token_list, free);
+	result = check_token_list(token_list);
+	printf("check result : %d\n", result);
+	if (result == 0)
+		make_ast(token_list);
+	ft_lstclear(&token_list, token_free); // must change function free -> token_free
 	free(token_list);
-	return (0);
+	return (result);
 }
 
 int	read_command(void)
@@ -51,11 +55,13 @@ int	reader_loop(void)
 	last_exit_status = 0;
 	while (1)
 	{
+		last_exit_status = read_command();
 		if (read_command() == 0)
 		{
 			cur_command = *get_global_command();
 			last_exit_status = execute_command(cur_command);
-			// dispose_command();
+			dispose_command();
+			cur_command = NULL;
 		}
 		else
 		{
