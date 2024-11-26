@@ -14,9 +14,6 @@
 #include "env.h"
 #include "command.h"
 
-#include <stdio.h>
-
-
 char	*env_to_char(t_envp_node *node)
 {
 	char	*target;
@@ -46,4 +43,3 @@ char	**list_to_envp(t_list *envp_list)
 	envp[len] = NULL;
 	return (envp);
 }
-
