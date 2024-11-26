@@ -31,7 +31,7 @@ void	execute_child(char **argv, char *cmd_path)
 	exit(127);
 }
 
-int	execute_parent(int pid)
+int	execute_parent(pid_t pid)
 {
 	int	status;
 	int	result;

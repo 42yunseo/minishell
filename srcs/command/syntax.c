@@ -61,20 +61,22 @@ int	check_redirection(t_list *token_list)
 
 int	check_token_list(t_list *token_list)
 {
-	t_token				*token;
-	int					result;
+	t_list	*ptr;
+	t_token	*token;
+	int		result;
 
 	result = 0;
-	while (token_list != NULL && result == 0)
+	ptr = token_list;
+	while (ptr != NULL && result == 0)
 	{
-		token = token_list->content;
+		token = ptr->content;
 		if (token->type == w_word)
 			result = 0;
 		else if (token->type == w_pipe)
-			result = check_pipe(token_list);
+			result = check_pipe(ptr);
 		else
-			result = check_redirection(token_list);
-		token_list = token_list->next;
+			result = check_redirection(ptr);
+		ptr = ptr->next;
 	}
 	return (result);
 }

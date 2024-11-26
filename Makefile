@@ -34,7 +34,7 @@ ENV_DIR = ./srcs/env/
 ENVS = env envp
 
 COMMAND_DIR = ./srcs/command/
-COMMANDS = command eval token expansion type cmd ast path syntax dispose
+COMMANDS = command eval token expansion type ast path syntax dispose
 
 EXECUTE_DIR = ./srcs/execute/
 EXECUTES = execute simple pipe redirect heredoc

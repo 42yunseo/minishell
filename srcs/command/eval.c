@@ -47,6 +47,64 @@ int	read_command(int last_exit_status)
 	return (result);
 }
 
+
+/*
+print ast will remove
+*/
+void	print_node(t_ast_node *node);
+
+
+void	print_pipe(t_pipe *pipe_node)
+{
+	printf("pipe ptr : %p\n", pipe_node);
+	if (pipe_node == NULL)
+		return ;
+	printf("l node : \n");
+	print_node(pipe_node->l_node);
+	printf("\nr node : \n");
+	print_node(pipe_node->r_node);
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	printf("cmd ptr ; %p\n", cmd);
+	if (cmd == NULL)
+		return ;
+	printf("cmd's args \n");
+	int i = 0;
+	while (cmd->args != NULL)
+	{
+		printf("arg[%d] : %s\n", i++, (char *)cmd->args->content);
+		cmd->args = cmd->args->next;
+	}
+	printf("\n");
+}
+
+void	print_node(t_ast_node *node)
+{
+	printf("node ptr : %p\n", node);
+	if (node == NULL)
+		return ;
+	printf("node type : %s\n", node->type == node_cmd ? "CMD" : "PIPE");
+	if (node->type == node_cmd)
+		print_cmd(node->u_value.cmd);
+	if (node->type == node_pipe)
+		print_pipe(node->u_value.pipe);
+	printf("\n");
+}
+
+void	print_ast(t_ast *ast)
+{
+	printf("ast ptr : %p\n", ast);
+	if (ast == NULL)
+		return ;
+	print_node(ast->root);
+}
+
+/*
+remove end
+*/
+
 int	reader_loop(void)
 {
 	int		last_exit_status;
@@ -55,11 +113,11 @@ int	reader_loop(void)
 	last_exit_status = 0;
 	while (1)
 	{
-		// if syntax err occurs dosen't execute
 		last_exit_status = read_command(last_exit_status);
 		if (last_exit_status == 0)
 		{
 			cur_command = *get_global_command();
+			print_ast(cur_command);
 			last_exit_status = execute_command(cur_command);
 			dispose_command();
 			cur_command = NULL;

@@ -12,6 +12,9 @@
 
 #include "command.h"
 
+t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list);
+t_ast_node	*parse_node(t_list *token_list);
+
 t_ast	*ft_astnew(void)
 {
 	t_ast	*ast;
@@ -74,33 +77,50 @@ t_ast_node	*parse_cmd(t_list *token_list)
 	return (node);
 }
 
+t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list)
+{
+	t_ast_node	*node;
+	t_pipe		*pipe_node;
+
+	node = (t_ast_node *)malloc(sizeof(t_ast_node));
+	if (node == NULL)
+		return (NULL);
+	pipe_node = (t_pipe *)malloc(sizeof(t_pipe));
+	if (pipe_node == NULL)
+		return (NULL);
+	pipe_node->l_node = l_node;
+	pipe_node->r_node = parse_node(token_list->next);
+	node->type = node_pipe;
+	node->u_value.pipe = pipe_node;
+	return (node);
+}
+
+t_ast_node	*parse_node(t_list *token_list)
+{
+	t_ast_node	*node;
+	t_token		*token;
+
+	if (token_list == NULL)
+		return (NULL);
+	node = parse_cmd(token_list);
+	token = token_list->content;
+	while (token_list != NULL && token->type != w_pipe)
+	{
+		token = token_list->content;
+		token_list = token_list->next;
+	}
+	if (token_list && token && token->type == w_pipe)
+		node = parse_pipe(node, token_list);
+	return (node);
+}
+
 void	make_ast(t_list *token_list)
 {
 	t_ast		*ast;
 	t_ast_node	*node;
-	//t_token		*token;
 
 	ast = ft_astnew();
 	set_global_command(ast);
-	while (token_list != NULL)
-	{
-		// token = token_list->content;
-		// if (token->type != w_pipe)
-		// {
-
-		// }
-
-		node = parse_cmd(token_list);
-		if (node != NULL)
-			ast->root = node;
-		while (token_list && ((t_token *)(token_list))->type != w_pipe)
-			token_list = token_list->next;
-		if (token_list && ((t_token *)(token_list))->type != w_pipe)
-		{
-			/* parse pipe logic */
-			// node = pasre_pipe(token);
-			token_list = token_list->next;
-			continue;
-		}
-	}
+	node = parse_node(token_list);
+	ast->root = node;
 }

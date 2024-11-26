@@ -42,6 +42,27 @@ void	heredoc_child(char *delimiter, int pipe_fd[2])
 	exit(0);
 }
 
+int	heredoc_parent(pid_t pid)
+{
+	int	status;
+	int	result;
+	int	signo;
+
+	status = 0;
+	set_signals(SIG_CHILD, SIG_IGNORE);
+	result = 0;
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		signo = WTERMSIG(status);
+		result = (128 + signo);
+	}
+	else if (WIFEXITED(status))
+		result = WEXITSTATUS(status);
+	set_signals(SIG_SHELL, SIG_IGNORE);
+	return (result);
+}
+
 int	do_heredoc(char *delimiter)
 {
 	pid_t	pid;
@@ -56,11 +77,9 @@ int	do_heredoc(char *delimiter)
 	result = 0;
 	if (pid == 0)
 		heredoc_child(delimiter, pipe_fd);
-	set_signals(SIG_CHILD, SIG_IGNORE);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[1]);
-	close(pipe_fd[STDIN_FILENO]);
-	waitpid(pid, &result, 0);
-	set_signals(SIG_SHELL, SIG_IGNORE);
+	result = heredoc_parent(pid);
+	close(pipe_fd[0]);
 	return (result);
 }
