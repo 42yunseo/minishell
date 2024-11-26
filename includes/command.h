@@ -126,7 +126,7 @@ void		free_redirection(void *redirect);
 int			do_heredoc(char *delimiter);
 
 // path.c
-void		free_args(char **args);
+void		free_argv(char **args);
 
 // syntax.c
 int			check_token_list(t_list *token_list);
@@ -134,6 +134,7 @@ int			check_token_list(t_list *token_list);
 // dispose.c
 void		dispose_command(void);
 
+void		add_str(char **src, char *part);
 #endif
 
 /*

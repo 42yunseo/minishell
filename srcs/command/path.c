@@ -13,7 +13,7 @@
 #include "env.h"
 #include "libft.h"
 
-void	free_args(char **args)
+void	free_argv(char **args)
 {
 	int	i;
 

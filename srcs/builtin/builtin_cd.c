@@ -35,13 +35,16 @@ char	*get_dirname(t_list *list)
 int	builtin_cd(t_list *list)
 {
 	char	*dirname;
+	char	*cwd;
 
 	dirname = get_dirname(list);
 	if (dirname == NULL)
 		return (EXECUTE_FAILURE);
 	if (chdir(dirname) == 0)
 	{
-		ft_setenv("PWD", getcwd(NULL, 0));
+		cwd = getcwd(NULL, 0);
+		ft_setenv("PWD", cwd);
+		free(cwd);
 		return (EXECUTE_SUCCESS);
 	}
 	else

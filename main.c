@@ -19,7 +19,7 @@
 
 void	shell_exit(int exit_status)
 {
-	free_envp();
+	ft_lstclear(get_envp(), free_envp_node);
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	signal(SIGTERM, SIG_DFL);
 	dispose_command();

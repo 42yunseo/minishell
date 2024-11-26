@@ -117,7 +117,7 @@ int	reader_loop(void)
 		if (last_exit_status == 0)
 		{
 			cur_command = *get_global_command();
-			print_ast(cur_command);
+			//print_ast(cur_command);
 			last_exit_status = execute_command(cur_command);
 			dispose_command();
 			cur_command = NULL;

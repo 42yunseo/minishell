@@ -6,13 +6,13 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/26 13:26:36 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/26 19:30:23 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
 LFLAGS = -lreadline -lft -Llibft
 IFLAGS = -Ilibft/ -Iincludes/
@@ -37,7 +37,7 @@ COMMAND_DIR = ./srcs/command/
 COMMANDS = command eval token expansion type ast path syntax dispose
 
 EXECUTE_DIR = ./srcs/execute/
-EXECUTES = execute simple pipe redirect heredoc
+EXECUTES = execute simple pipe redirect heredoc utils
 
 SIGNAL_DIR = ./srcs/signal/
 SIGNALS = signal

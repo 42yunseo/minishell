@@ -18,13 +18,13 @@
 
 #include <stdio.h>
 
-void	execute_child(char **argv, char *cmd_path)
+void	execute_child(char **argv, char *cmd_path, char **envp)
 {
 	char	*cmd;
 
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	cmd = *argv;
-	execve(cmd_path, argv, *get_envp());
+	execve(cmd_path, argv, envp);
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
@@ -95,7 +95,7 @@ char	*get_cmd_path(char *cmd)
 		}
 		free(tmp);
 	}
-	free_args(paths);
+	free_argv(paths);
 	return (cmd_path);
 }
 
@@ -105,9 +105,11 @@ int	execute_simple(t_list *args)
 	int		result;
 	char	**argv;
 	char	*cmd_path;
+	char	**envp;
 
 	result = 0;
 	argv = list_to_argv(args);
+	envp = list_to_envp(*get_envp());
 	cmd_path = get_cmd_path(*argv);
 	if (cmd_path == NULL)
 		cmd_path = ft_strdup(*argv);
@@ -115,10 +117,11 @@ int	execute_simple(t_list *args)
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
-		execute_child(argv, cmd_path);
+		execute_child(argv, cmd_path, envp);
 	result = execute_parent(pid);
 	if (cmd_path != NULL)
 		free(cmd_path);
-	free_args(argv);
+	free_argv(argv);
+	free_argv(envp);
 	return (result);
 }
