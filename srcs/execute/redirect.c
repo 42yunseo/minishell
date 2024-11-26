@@ -37,6 +37,7 @@ void	set_redirection_type_flag(enum e_word_type type, t_redirect *redir)
 
 t_redirect	*make_redirection(t_list *token_list)
 {
+	//printf("call make redirection\n");
 	enum e_word_type	type;
 	t_redirect			*redir;
 	t_token				*token;

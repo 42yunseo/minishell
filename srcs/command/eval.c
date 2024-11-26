@@ -18,6 +18,24 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+void	print_token_list(t_list *token_list)
+{
+	t_token	*token;
+
+	while (token_list != NULL)
+	{
+		printf("token_list ptr : %p\n", token_list);
+		token = token_list->content;
+
+		printf("token ptr : %p\n", token);
+		if (token == NULL)
+			return ;
+		printf("token->type : %d\n", token->type);
+		printf("token->word : %s\n", token->word);
+		token_list = token_list->next;
+	}
+}
+
 int	parse_command(const char *line, int last_exit_status)
 {
 	t_list	*token_list;
@@ -26,6 +44,7 @@ int	parse_command(const char *line, int last_exit_status)
 	token_list = tokenize_line(line);
 	expand_token(token_list, last_exit_status);
 	result = check_token_list(token_list);
+	//print_token_list(token_list);
 	if (result == 0)
 		make_ast(token_list);
 	ft_lstclear(&token_list, token_free);
@@ -50,7 +69,6 @@ int	read_command(int last_exit_status)
 
 /*
 print ast will remove
-*/
 void	print_node(t_ast_node *node);
 
 
@@ -78,6 +96,13 @@ void	print_cmd(t_cmd *cmd)
 		cmd->args = cmd->args->next;
 	}
 	printf("\n");
+	i = 0;
+	while (cmd->redirects != NULL)
+	{
+		printf("redirect[%d] : %s\n", i++, ((t_redirect *)cmd->redirects)->filename);
+		cmd->redirects = cmd->redirects->next;
+	}
+	printf("\n");
 }
 
 void	print_node(t_ast_node *node)
@@ -96,12 +121,12 @@ void	print_node(t_ast_node *node)
 void	print_ast(t_ast *ast)
 {
 	printf("ast ptr : %p\n", ast);
+	fflush(stdout);
 	if (ast == NULL)
 		return ;
 	print_node(ast->root);
 }
 
-/*
 remove end
 */
 
@@ -117,7 +142,7 @@ int	reader_loop(void)
 		if (last_exit_status == 0)
 		{
 			cur_command = *get_global_command();
-			print_ast(cur_command);
+			//print_ast(cur_command);
 			last_exit_status = execute_command(cur_command);
 			dispose_command();
 			cur_command = NULL;

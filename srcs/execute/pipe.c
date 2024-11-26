@@ -55,5 +55,5 @@ int	execute_pipe(t_pipe *pipe_node)
 	close(pipe_fd[0]);
 	wait(&exit_status);
 	wait(&exit_status);
-	exit(exit_status);
+	return (exit_status);
 }

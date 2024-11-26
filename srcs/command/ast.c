@@ -51,7 +51,7 @@ t_cmd	*make_cmd(t_list *token_list)
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	ft_memset(cmd, 0, sizeof(t_cmd));
-	while (token_list != NULL && ((t_token *)token_list)->type != w_pipe)
+	while (token_list != NULL && ((t_token *)token_list->content)->type != w_pipe)
 	{
 		token = token_list->content;
 		if (token->type == w_word)
@@ -69,10 +69,10 @@ t_cmd	*make_cmd(t_list *token_list)
 
 t_ast_node	*parse_cmd(t_list *token_list)
 {
-	printf("parse_cmd call\n");
+	//printf("parse_cmd call\n");
 	t_ast_node	*node;
 
-	printf("list ptr : %p\n", token_list);
+	//printf("list ptr : %p\n", token_list);
 	node = ft_new_ast_node(make_cmd(token_list), node_cmd);
 	if (node == NULL)
 		return (NULL);
@@ -81,11 +81,11 @@ t_ast_node	*parse_cmd(t_list *token_list)
 
 t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list)
 {
-	printf("parse_pipe call\n");
+	//printf("parse_pipe call\n");
 	t_ast_node	*node;
 	t_pipe		*pipe_node;
 
-	printf("list ptr : %p\n", token_list);
+	//printf("list ptr : %p\n", token_list);
 	node = (t_ast_node *)malloc(sizeof(t_ast_node));
 	if (node == NULL)
 		return (NULL);
@@ -101,21 +101,20 @@ t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list)
 
 t_ast_node	*parse_node(t_list *token_list)
 {
-	printf("parse_node call\n");
+	//printf("parse_node call\n");
 	t_ast_node	*node;
 	t_token		*token;
 
-	printf("list ptr : %p\n", token_list);
+	//printf("list ptr : %p\n", token_list);
 	if (token_list == NULL)
 		return (NULL);
 	node = parse_cmd(token_list);
 	token = token_list->content;
-	while (token_list != NULL && token->type != w_pipe)
+	while (token_list != NULL && ((t_token *)(token_list->content))->type != w_pipe)
 	{
-		token = token_list->content;
 		token_list = token_list->next;
 	}
-	if (token_list && token && token->type == w_pipe)
+	if (token_list && token && ((t_token *)(token_list->content))->type == w_pipe)
 		node = parse_pipe(node, token_list);
 	return (node);
 }
