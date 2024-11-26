@@ -50,10 +50,10 @@ int	get_equal_idx(char *str)
 	while (str[idx])
 	{
 		if (str[idx] == '=')
-			return idx;
+			break ;
 		idx++;
 	}
-	return (-1);
+	return (idx);
 }
 
 t_envp_node	*make_envp_node(const char *name, const char *value)

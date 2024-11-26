@@ -13,14 +13,13 @@
 #include "builtin.h"
 #include "env.h"
 
-
 int	builtin_export(t_list *list)
 {
 	char	*str;
 	char	*name;
 	char	*value;
 	int		idx;
-	
+
 	if (list == NULL)
 		return (builtin_env(NULL));
 	while (list != NULL)

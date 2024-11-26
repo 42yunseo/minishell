@@ -14,9 +14,6 @@
 #include "libft.h"
 #include "command.h"
 
-#include <stdio.h>
-
-
 void	add_str(char **src, char *part)
 {
 	char	*result;

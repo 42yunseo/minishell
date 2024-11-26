@@ -101,7 +101,6 @@ char	*get_cmd_path(char *cmd)
 
 int	execute_simple(t_list *args)
 {
-	// printf("call simple\n");
 	pid_t	pid;
 	int		result;
 	char	**argv;

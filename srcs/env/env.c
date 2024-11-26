@@ -52,13 +52,13 @@ t_list	*get_name_pos(const char *name)
 			return (pos);
 		pos = pos->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
 int	ft_setenv(const char *name, const char *value)
 {
-	t_list	*envp;
-	t_list	*pos;
+	t_list		*envp;
+	t_list		*pos;
 	t_envp_node	*node;
 
 	if (name == NULL || *name == '\0')
@@ -100,6 +100,6 @@ int	ft_unsetenv(const char *name)
 		return (-1);
 	fast->next = slow->next;
 	free_envp_node(node);
-	free(slow);	
+	free(slow);
 	return (0);
 }
