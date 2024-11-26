@@ -13,16 +13,24 @@
 #include "builtin.h"
 #include "env.h"
 
+void	print_env_list(void *list)
+{
+	t_list		*env_list;
+	t_envp_node	*node;
+
+	env_list = list;
+	node = env_list->content;
+	ft_putstr_fd(node->key, STDOUT_FILENO);
+	ft_putchar_fd('=', STDOUT_FILENO);
+	ft_putendl_fd(node->value, STDOUT_FILENO);
+}
+
 int	builtin_env(t_list *list)
 {
-	char	**envp;
+	t_list	*envp_list;
 
 	list = (void *)list;
-	envp = *get_envp();
-	while (*envp != NULL)
-	{
-		ft_putendl_fd(*envp, STDOUT_FILENO);
-		envp++;
-	}
+	envp_list = *get_envp();
+	ft_lstiter(envp_list, print_env_list);
 	return (EXECUTE_SUCCESS);
 }

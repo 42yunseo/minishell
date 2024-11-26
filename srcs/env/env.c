@@ -17,6 +17,115 @@
 
 char	*ft_getenv(const char *name)
 {
+	size_t		len;
+	t_list		*envp;
+	t_envp_node	*node;
+
+	if (name == NULL || *name == '\0')
+		return (NULL);
+	envp = *get_envp();
+	len = ft_strlen(name);
+	while (envp != NULL)
+	{
+		node = envp->content;
+		if (ft_strncmp(node->key, name, len) == 0)
+			return (node->value);
+		envp = envp->next;
+	}
+	return (NULL);
+}
+
+t_list	*get_name_pos(const char *name)
+{
+	size_t		len;
+	t_list		*pos;
+	t_list		*envp;
+	t_envp_node	*node;
+
+	len = ft_strlen(name);
+	envp = *get_envp();
+	pos = envp;
+	while (pos)
+	{
+		node = (t_envp_node *) pos->content;
+		if (ft_strncmp(node->key, name, len) == 0)
+			return (pos);
+		pos = pos->next;
+	}
+	return NULL;
+}
+
+int	ft_setenv(const char *name, const char *value)
+{
+	t_list	*envp;
+	t_list	*pos;
+	t_envp_node	*node;
+
+	if (name == NULL || *name == '\0')
+		return (-1);
+	if (value == NULL)
+		return (-1);
+	envp = *get_envp();
+	pos = get_name_pos(name);
+	if (pos != NULL)
+	{
+		node = pos->content;
+		free(node->value);
+		node->value = ft_strdup(value);
+	}
+	else
+		ft_lstadd_back(&envp, ft_lstnew(make_envp_node(name, value)));
+	return (0);
+}
+
+int	ft_unsetenv(const char *name)
+{
+	t_list		*fast;
+	t_list		*slow;
+	t_envp_node	*node;
+	int			len;
+
+	if (name == NULL || *name == '\0')
+		return (-1);
+	len = ft_strlen(name);
+	slow = *get_envp();
+	node = slow->content;
+	while (slow && ft_strncmp(node->key, name, len) != 0)
+	{
+		fast = slow;
+		slow = slow->next;
+		node = slow->content;
+	}
+	if (slow == NULL)
+		return (-1);
+	fast->next = slow->next;
+	free(node->key);
+	free(node->value);
+	free(slow->content);
+	free(slow);
+	return (0);
+}
+
+/*
+envp status
+a=a
+b=b
+c=c
+d=d
+NULL
+
+이 상황에서 unset(b) 가 호출된다면?
+
+*ep = "b=b" 일때까지 ep 증가
+-> 포인터 복사해두고 뒤에서부터 덮어씌우기
+
+
+
+*/
+
+/*
+char	*ft_getenv(const char *name)
+{
 	size_t	len;
 	char	**envp;
 
@@ -99,20 +208,4 @@ int	ft_unsetenv(const char *name)
 	set_envp(new_envp);
 	return (0);
 }
-
-/*
-envp status
-a=a
-b=b
-c=c
-d=d
-NULL
-
-이 상황에서 unset(b) 가 호출된다면?
-
-*ep = "b=b" 일때까지 ep 증가
--> 포인터 복사해두고 뒤에서부터 덮어씌우기
-
-
-
 */
