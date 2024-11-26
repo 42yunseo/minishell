@@ -13,14 +13,29 @@
 #include "builtin.h"
 #include "env.h"
 
+
 int	builtin_export(t_list *list)
 {
+	char	*str;
+	char	*name;
+	char	*value;
+	int		idx;
+	
 	if (list == NULL)
 		return (builtin_env(NULL));
-	// while (list != NULL)
-	// {
-
-	// 	list = list->next;
-	// }
+	while (list != NULL)
+	{
+		str = list->content;
+		idx = get_equal_idx(str);
+		if (idx != -1)
+		{
+			name = ft_substr(str, 0, idx);
+			value = ft_strdup(&str[idx + 1]);
+			ft_setenv(name, value);
+			free(name);
+			free(value);
+		}
+		list = list->next;
+	}
 	return (EXECUTE_SUCCESS);
 }

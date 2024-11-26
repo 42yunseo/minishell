@@ -90,7 +90,7 @@ int	ft_unsetenv(const char *name)
 	len = ft_strlen(name);
 	slow = *get_envp();
 	node = slow->content;
-	while (node && ft_strncmp(node->key, name, len) != 0)
+	while (slow->next && node && ft_strncmp(node->key, name, len) != 0)
 	{
 		fast = slow;
 		slow = slow->next;
@@ -100,6 +100,6 @@ int	ft_unsetenv(const char *name)
 		return (-1);
 	fast->next = slow->next;
 	free_envp_node(node);
-	free(slow);
+	free(slow);	
 	return (0);
 }

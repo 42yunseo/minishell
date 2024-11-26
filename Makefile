@@ -6,13 +6,13 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 16:46:40 by yunseo            #+#    #+#              #
-#    Updated: 2024/11/26 19:30:23 by yunseo           ###   ########.fr        #
+#    Updated: 2024/11/26 20:07:32 by chjeong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
 
 LFLAGS = -lreadline -lft -Llibft
 IFLAGS = -Ilibft/ -Iincludes/
