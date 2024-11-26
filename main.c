@@ -22,6 +22,7 @@ void	shell_exit(int exit_status)
 	free_envp();
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	signal(SIGTERM, SIG_DFL);
+	dispose_command();
 	ft_putendl_fd("exit", 2);
 	exit(exit_status);
 }

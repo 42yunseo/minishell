@@ -21,7 +21,7 @@ void	sigint_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n", 2);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -32,10 +32,8 @@ void	sig_child(int signo)
 {
 	if (signo == SIGINT)
 		ft_putendl_fd("", 2);
-		//write(1, "\n", 1);
 	if (signo == SIGQUIT)
 		ft_putendl_fd("Quit: 3", 2);
-		//write(1, "Quit: 3\n", 8);
 }
 
 void	set_signals(int sig_int, int sig_quit)

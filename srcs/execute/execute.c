@@ -19,12 +19,12 @@
 int	execute_cmd(t_cmd *cmd)
 {
 	int	result;
+	int	original_fd[2];
 
 	result = 0;
-	cmd->origin_stdin = dup(STDIN_FILENO);
-	cmd->origin_stdout = dup(STDOUT_FILENO);
+	original_fd[STDIN_FILENO] = dup(STDIN_FILENO);
+	original_fd[STDOUT_FILENO] = dup(STDOUT_FILENO);
 	result = execute_redirect(cmd->redirects);
-	//printf("redirect result : %d\n", result);
 	if (result == 0 && cmd->args != NULL)
 	{
 		if (isabuiltin(cmd->args))
@@ -32,11 +32,10 @@ int	execute_cmd(t_cmd *cmd)
 		else
 			result = execute_simple(cmd->args);
 	}
-	dup2(cmd->origin_stdin, STDIN_FILENO);
-	dup2(cmd->origin_stdout, STDOUT_FILENO);
-	close(cmd->origin_stdin);
-	close(cmd->origin_stdout);
-	//printf("Exit status : %d\n", result);
+	dup2(original_fd[STDIN_FILENO], STDIN_FILENO);
+	dup2(original_fd[STDOUT_FILENO], STDOUT_FILENO);
+	close(original_fd[STDIN_FILENO]);
+	close(original_fd[STDOUT_FILENO]);
 	return (result);
 }
 
@@ -55,9 +54,9 @@ int	execute_node(t_ast_node *node)
 int	execute_command(t_ast *ast)
 {
 	if (ast == NULL)
-		return (-1);
+		return (0);
 	if (ast->root == NULL)
-		return (-1);
+		return (0);
 	ast->last_exit_status = execute_node(ast->root);
 	return (ast->last_exit_status);
 }

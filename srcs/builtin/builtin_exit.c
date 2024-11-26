@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "minishell.h"
 
 int	builtin_exit(t_list *list)
 {
 	list = (void *)list;
-	ft_putendl_fd("exit", STDERR_FILENO);
-	return (EXECUTE_SUCCESS);
+	shell_exit(0);
+	return (0);
 }

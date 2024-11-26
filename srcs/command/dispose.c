@@ -26,6 +26,8 @@ void	dispose_cmd(t_cmd *cmd)
 
 void	dispose_pipe(t_pipe *pipe_node)
 {
+	if (pipe_node == NULL)
+		return ;
 	dispose_ast_node(pipe_node->l_node);
 	dispose_ast_node(pipe_node->r_node);
 	free(pipe_node);
@@ -52,4 +54,5 @@ void	dispose_command(void)
 		return ;
 	dispose_ast_node(ast->root);
 	free(ast);
+	set_global_command(NULL);
 }

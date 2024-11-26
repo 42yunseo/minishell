@@ -51,8 +51,6 @@ typedef struct s_cmd
 {
 	t_list			*args;
 	t_list			*redirects;
-	int				origin_stdin;
-	int				origin_stdout;
 }	t_cmd;
 
 typedef struct s_pipe
@@ -93,25 +91,20 @@ t_list		*tokenize_line(const char *line);
 void		token_free(void *ptr);
 
 // eval.c
-int			parse_command(const char *line);
-int			read_command(void);
+int			parse_command(const char *line, int last_exit_status);
+int			read_command(int last_exit_status);
 int			reader_loop(void);
 
 // expansion.c
-void		expand_token(t_list *token_list);
+void		expand_token(t_list *token_list, int last_exit_status);
 
 // type.c
 int			is_isf(char c);
 int			is_redirect(char c);
 int			is_quote(char c);
 
-
 // ast.c
-// t_ast		*ft_newast(void);
-// t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type);
 void		make_ast(t_list *token_list);
-
-
 
 // execute.c
 int			execute_command(t_ast *cur_command);
@@ -129,15 +122,17 @@ int			execute_redirect(t_list *redirect_list);
 t_redirect	*make_redirection(t_list *token_list);
 void		free_redirection(void *redirect);
 
+// heredoc.c
+int			do_heredoc(char *delimiter);
+
 // path.c
 void		free_args(char **args);
 
 // syntax.c
 int			check_token_list(t_list *token_list);
 
-
 // dispose.c
-void		dispose_command();
+void		dispose_command(void);
 
 #endif
 

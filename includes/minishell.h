@@ -16,6 +16,8 @@
 # define EXECUTION_SUCCESS	0
 # define EXECUTION_FAILURE	1
 
+void	shell_exit(int exit_status);
+
 /*
 RPEL programming
 

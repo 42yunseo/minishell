@@ -27,9 +27,7 @@ void	set_redirection_type_flag(enum e_word_type type, t_redirect *redir)
 		redir->oflag = O_WRONLY | O_CREAT | O_TRUNC;
 	}
 	if (type == w_here_doc)
-	{
 		redir->type = r_heredoc;
-	}
 	if (type == w_append)
 	{
 		redir->type = r_append;
@@ -50,7 +48,8 @@ t_redirect	*make_redirection(t_list *token_list)
 	type = token->type;
 	redir->fd = 0;
 	token_list = token_list->next;
-	redir->filename = token->word;
+	token = token_list->content;
+	redir->filename = ft_strdup(token->word);
 	set_redirection_type_flag(type, redir);
 	return (redir);
 }
@@ -84,12 +83,11 @@ int	execute_redirect(t_list *redirect_list)
 	int			result;
 
 	result = 0;
-	//printf("redirect_list : %p\n", redirect_list);
 	while (redirect_list != NULL)
 	{
 		cur_redirect = redirect_list->content;
 		if (cur_redirect->type == r_heredoc)
-			continue ;
+			result = do_heredoc(cur_redirect->filename);
 		else
 			result = do_redirect(cur_redirect);
 		if (result != 0)
