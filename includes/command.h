@@ -105,6 +105,7 @@ int			is_quote(char c);
 
 // ast.c
 void		make_ast(t_list *token_list);
+t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type);
 
 // execute.c
 int			execute_command(t_ast *cur_command);
@@ -134,7 +135,17 @@ int			check_token_list(t_list *token_list);
 // dispose.c
 void		dispose_command(void);
 
+// pasre.c
+t_ast_node	*parse_node(t_list *token_list);
+t_ast_node	*parse_cmd(t_list *token_list);
+t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list);
+
+t_cmd		*make_cmd(t_list *token_list);
+
+//t_pipe		*make_pipe();
+
 void		add_str(char **src, char *part);
+
 #endif
 
 /*

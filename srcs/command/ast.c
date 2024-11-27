@@ -38,30 +38,6 @@ t_ast_node	*ft_new_ast_node(void *value, enum e_node_type type)
 	return (node);
 }
 
-t_cmd	*make_cmd(t_list *token_list)
-{
-	t_cmd		*cmd;
-	t_token		*token;
-	t_redirect	*redirection;
-
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	ft_memset(cmd, 0, sizeof(t_cmd));
-	while (token_list != NULL && ((t_token *)token_list->content)->type != w_pipe)
-	{
-		token = token_list->content;
-		if (token->type == w_word)
-			ft_lstadd_back(&cmd->args, ft_lstnew(ft_strdup(token->word)));
-		else
-		{
-			redirection = make_redirection(token_list);
-			ft_lstadd_back(&cmd->redirects, ft_lstnew(redirection));
-			token_list = token_list->next;
-		}
-		token_list = token_list->next;
-	}
-	return (cmd);
-}
-
 void	make_ast(t_list *token_list)
 {
 	t_ast		*ast;

@@ -33,15 +33,6 @@ void	free_envp_node(void *content)
 	free(content);
 }
 
-void	sset_envp(t_envp_node *node, char *env)
-{
-	int		idx;
-
-	idx = get_equal_idx(env);
-	node->key = ft_substr(env, 0, idx);
-	node->value = ft_substr(&env[idx + 1], 0, ft_strlen(&env[idx + 1]));
-}
-
 int	get_equal_idx(char *str)
 {
 	int	idx;
@@ -50,10 +41,10 @@ int	get_equal_idx(char *str)
 	while (str[idx])
 	{
 		if (str[idx] == '=')
-			break ;
+			return (idx);
 		idx++;
 	}
-	return (idx);
+	return (-1);
 }
 
 t_envp_node	*make_envp_node(const char *name, const char *value)

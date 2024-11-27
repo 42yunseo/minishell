@@ -13,7 +13,7 @@
 #include "builtin.h"
 #include "env.h"
 
-void	print_env_list(void *content)
+void	print_env(void *content)
 {
 	t_envp_node	*node;
 
@@ -29,6 +29,6 @@ int	builtin_env(t_list *list)
 
 	list = (void *)list;
 	envp_list = *get_envp();
-	ft_lstiter(envp_list, print_env_list);
+	ft_lstiter(envp_list, print_env);
 	return (EXECUTE_SUCCESS);
 }
