@@ -14,6 +14,8 @@
 #include "libft.h"
 #include "command.h"
 
+#include <stdio.h>
+
 void	add_str(char **src, char *part)
 {
 	char	*result;
@@ -75,6 +77,8 @@ int	quote_expand(char *word, char **result, int last_exit_status)
 			len++;
 		}
 	}
+	if (word[len] == quote)
+		len++;
 	return (len);
 }
 
