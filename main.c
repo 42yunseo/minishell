@@ -6,7 +6,7 @@
 /*   By: yunseo <yunseo@student.42gyeongsan.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 03:56:14 by yunseo            #+#    #+#             */
-/*   Updated: 2024/08/15 03:56:40 by yunseo           ###   ########.fr       */
+/*   Updated: 2024/11/29 16:06:01 by yunseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	shell_exit(int exit_status)
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	signal(SIGTERM, SIG_DFL);
 	dispose_command();
-	ft_putendl_fd("exit", 2);
 	exit(exit_status);
 }
 
@@ -37,9 +36,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	int	exit_status;
 
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || \
-	!isatty(STDERR_FILENO))
-		return (1);
+//	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) ||
+//	!isatty(STDERR_FILENO))
+//		return (1);
 	exit_status = 0;
 	use_args(argc, argv);
 	init_signal();

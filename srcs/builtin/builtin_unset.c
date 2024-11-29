@@ -17,6 +17,8 @@ int	builtin_unset(t_list *list)
 {
 	int	result;
 
-	result = ft_unsetenv(list->content);
+	result = 0;
+	if (list != NULL)
+		result = ft_unsetenv(list->content);
 	return (result);
 }

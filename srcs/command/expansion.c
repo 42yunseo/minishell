@@ -45,6 +45,11 @@ int	dollar_expand(char *word, char **result, int last_exit_status)
 	}
 	while (word[len] != '\0' && !ft_strchr(" \t\n\'\"$", word[len]))
 		len++;
+	if (len == 0)
+	{
+		add_str(result, ft_strdup("$"));
+		return (1);
+	}
 	tmp = ft_substr(word, 0, len);
 	if (ft_getenv(tmp) == NULL)
 		env = NULL;

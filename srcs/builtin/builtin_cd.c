@@ -26,7 +26,7 @@ char	*get_dirname(t_list *list)
 			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 	}
 	else if (list->next != NULL)
-		ft_putendl_fd("minishell: cd: too many argument", STDERR_FILENO);
+		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 	else
 		dirname = list->content;
 	return (dirname);

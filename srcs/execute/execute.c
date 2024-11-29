@@ -48,6 +48,7 @@ int	execute_node(t_ast_node *node)
 		exit_status = execute_cmd(node->u_value.cmd);
 	if (node->type == node_pipe && node->u_value.pipe != NULL)
 		exit_status = execute_pipe(node->u_value.pipe);
+	//printf("execute_node status : %d\n", exit_status);
 	return (exit_status);
 }
 
@@ -58,5 +59,6 @@ int	execute_command(t_ast *ast)
 	if (ast->root == NULL)
 		return (0);
 	ast->last_exit_status = execute_node(ast->root);
+	//printf("exeucte_command status : %d\n", ast->last_exit_status);
 	return (ast->last_exit_status);
 }

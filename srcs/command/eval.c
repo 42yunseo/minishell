@@ -40,7 +40,10 @@ int	read_command(int last_exit_status)
 
 	line = readline("minishell$ ");
 	if (line == NULL)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
 		shell_exit(last_exit_status);
+	}
 	add_history(line);
 	result = parse_command(line, last_exit_status);
 	free(line);
@@ -55,6 +58,7 @@ int	reader_loop(void)
 	last_exit_status = 0;
 	while (1)
 	{
+		//printf("last_exit_status : %d\n", last_exit_status);
 		last_exit_status = read_command(last_exit_status);
 		if (last_exit_status == 0)
 		{
@@ -63,6 +67,7 @@ int	reader_loop(void)
 			dispose_command();
 			cur_command = NULL;
 		}
+		//printf("last_exit_status : %d\n", last_exit_status);
 	}
 	return (last_exit_status);
 }

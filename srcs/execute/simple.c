@@ -14,16 +14,26 @@
 #include "my_signal.h"
 #include "env.h"
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
-
+#include <unistd.h>
 #include <stdio.h>
 
 void	execute_child(char **argv, char *cmd_path, char **envp)
 {
-	char	*cmd;
+	char		*cmd;
+	struct stat	stat_buf;
 
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	cmd = *argv;
+	stat(cmd_path, &stat_buf);
+	if (S_ISDIR(stat_buf.st_mode))
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(cmd_path, STDERR_FILENO);
+		ft_putendl_fd(": Is a directory", STDERR_FILENO);
+		exit(126);
+	}
 	execve(cmd_path, argv, envp);
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
@@ -107,6 +117,8 @@ int	execute_simple(t_list *args)
 	char	*cmd_path;
 	char	**envp;
 
+	if (*(char *)args->content == '\0')
+		return (0);
 	result = 0;
 	argv = list_to_argv(args);
 	envp = list_to_envp(*get_envp());
@@ -123,5 +135,7 @@ int	execute_simple(t_list *args)
 		free(cmd_path);
 	free_argv(argv);
 	free_argv(envp);
+	//printf("execute_simple result : %d\n", result);
 	return (result);
 }
+

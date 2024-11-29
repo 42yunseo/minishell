@@ -29,6 +29,26 @@ void	execute_pipe_child(int pipe_fd[2], t_ast_node *node, int mode)
 	exit (status);
 }
 
+int	execute_pipe_parent()
+{
+	int	status;
+	int	signo;
+	int	result;
+
+	wait(&status);
+	wait(&status);
+	if (WIFSIGNALED(status))
+	{
+		signo = WTERMSIG(status);
+		result = (128 + signo);
+	}
+	else if (WIFEXITED(status))
+		result = WEXITSTATUS(status);
+	return (result);
+}
+
+#include <stdio.h>
+
 int	execute_pipe(t_pipe *pipe_node)
 {
 	int		exit_status;
@@ -53,7 +73,9 @@ int	execute_pipe(t_pipe *pipe_node)
 	if (pid[1] == 0)
 		execute_pipe_child(pipe_fd, pipe_node->r_node, 0);
 	close(pipe_fd[0]);
-	wait(&exit_status);
-	wait(&exit_status);
+	exit_status = execute_pipe_parent();
+	//wait(&exit_status);
+	//wait(&exit_status);
+	//printf("pipe_exit status : %d\n", exit_status);
 	return (exit_status);
 }
