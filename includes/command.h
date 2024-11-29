@@ -144,6 +144,8 @@ t_cmd		*make_cmd(t_list *token_list);
 
 //t_pipe		*make_pipe();
 
+// utils.c
+char		**list_to_argv(t_list *list);
 void		add_str(char **src, char *part);
 
 #endif

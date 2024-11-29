@@ -14,6 +14,25 @@
 #include "env.h"
 #include "command.h"
 
+char	**list_to_argv(t_list *list)
+{
+	char	**argv;
+	int		len;
+	int		i;
+
+	i = 0;
+	len = ft_lstsize(list);
+	argv = (char **)malloc(sizeof(char *) * (len + 1));
+	while (i < len)
+	{
+		argv[i] = ft_strdup(list->content);
+		i++;
+		list = list->next;
+	}
+	argv[len] = NULL;
+	return (argv);
+}
+
 char	*env_to_char(t_envp_node *node)
 {
 	char	*target;

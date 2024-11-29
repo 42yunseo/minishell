@@ -29,14 +29,14 @@ void	execute_pipe_child(int pipe_fd[2], t_ast_node *node, int mode)
 	exit (status);
 }
 
-int	execute_pipe_parent()
+int	execute_pipe_parent(pid_t pid[2])
 {
 	int	status;
 	int	signo;
 	int	result;
 
-	wait(&status);
-	wait(&status);
+	waitpid(pid[0], &status, 0);
+	waitpid(pid[1], &status, 0);
 	if (WIFSIGNALED(status))
 	{
 		signo = WTERMSIG(status);
@@ -73,7 +73,7 @@ int	execute_pipe(t_pipe *pipe_node)
 	if (pid[1] == 0)
 		execute_pipe_child(pipe_fd, pipe_node->r_node, 0);
 	close(pipe_fd[0]);
-	exit_status = execute_pipe_parent();
+	exit_status = execute_pipe_parent(pid);
 	//wait(&exit_status);
 	//wait(&exit_status);
 	//printf("pipe_exit status : %d\n", exit_status);
