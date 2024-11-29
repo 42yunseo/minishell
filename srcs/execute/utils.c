@@ -14,6 +14,30 @@
 #include "env.h"
 #include "command.h"
 
+void	add_str(char **src, char *part)
+{
+	char	*result;
+
+	if (*src == NULL)
+		*src = ft_strdup("");
+	if (part == NULL)
+		part = ft_strdup("");
+	result = ft_strjoin(*src, part);
+	free(*src);
+	free(part);
+	*src = result;
+}
+
+void	free_argv(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i] != NULL)
+		free(args[i++]);
+	free(args);
+}
+
 char	**list_to_argv(t_list *list)
 {
 	char	**argv;

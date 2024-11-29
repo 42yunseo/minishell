@@ -67,6 +67,11 @@ int	check_token_list(t_list *token_list)
 
 	result = 0;
 	ptr = token_list;
+	if (ptr != NULL && ((t_token *)(ptr->content))->type == w_pipe)
+	{
+		print_err("|");
+		result = 2;
+	}
 	while (ptr != NULL && result == 0)
 	{
 		token = ptr->content;

@@ -94,7 +94,6 @@ int	execute_redirect(t_list *redirect_list)
 			break ;
 		redirect_list = redirect_list->next;
 	}
-	//printf("execute_redirect result : %d\n", result);
 	return (result);
 }
 

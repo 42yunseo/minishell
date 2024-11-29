@@ -58,7 +58,6 @@ int	reader_loop(void)
 	last_exit_status = 0;
 	while (1)
 	{
-		//printf("last_exit_status : %d\n", last_exit_status);
 		last_exit_status = read_command(last_exit_status);
 		if (last_exit_status == 0)
 		{
@@ -67,7 +66,6 @@ int	reader_loop(void)
 			dispose_command();
 			cur_command = NULL;
 		}
-		//printf("last_exit_status : %d\n", last_exit_status);
 	}
 	return (last_exit_status);
 }

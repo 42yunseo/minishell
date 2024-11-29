@@ -140,24 +140,9 @@ t_ast_node	*parse_node(t_list *token_list);
 t_ast_node	*parse_cmd(t_list *token_list);
 t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list);
 
-t_cmd		*make_cmd(t_list *token_list);
-
-//t_pipe		*make_pipe();
-
 // utils.c
+void		free_argv(char **args);
 char		**list_to_argv(t_list *list);
 void		add_str(char **src, char *part);
 
 #endif
-
-/*
-파이프에 대한 dup2 처리 이후
-다이렉션에 대한 dup2 처리.
-
-ls -l | wc -l < a
-같은 경우 입력을 ls -l 의 결과로 받지 않고, a로 입력을 받음. (파이프 출력이 무시됨.)
-
-ls -l > a | wc -l
-위의 경우도 마찬가지. ls -l의 결과가 wc로 넘어가지 않고, a로 출력됨.
-
-*/

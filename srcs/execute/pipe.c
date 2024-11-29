@@ -47,8 +47,6 @@ int	execute_pipe_parent(pid_t pid[2])
 	return (result);
 }
 
-#include <stdio.h>
-
 int	execute_pipe(t_pipe *pipe_node)
 {
 	int		exit_status;
@@ -74,8 +72,5 @@ int	execute_pipe(t_pipe *pipe_node)
 		execute_pipe_child(pipe_fd, pipe_node->r_node, 0);
 	close(pipe_fd[0]);
 	exit_status = execute_pipe_parent(pid);
-	//wait(&exit_status);
-	//wait(&exit_status);
-	//printf("pipe_exit status : %d\n", exit_status);
 	return (exit_status);
 }

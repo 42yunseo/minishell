@@ -36,7 +36,7 @@ long long	ft_atoll(char *nptr)
 	return (result);
 }
 
-int	exit_count_len(int n)
+int	exit_count_len(long long n)
 {
 	int	len;
 

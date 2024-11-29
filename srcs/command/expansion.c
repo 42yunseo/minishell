@@ -16,18 +16,14 @@
 
 #include <stdio.h>
 
-void	add_str(char **src, char *part)
+int	get_var_len(char *word)
 {
-	char	*result;
+	int	len;
 
-	if (*src == NULL)
-		*src = ft_strdup("");
-	if (part == NULL)
-		part = ft_strdup("");
-	result = ft_strjoin(*src, part);
-	free(*src);
-	free(part);
-	*src = result;
+	len = 0;
+	while (word[len] != '\0' && !ft_strchr(" \t\n\'\"$", word[len]))
+		len++;
+	return (len);
 }
 
 int	dollar_expand(char *word, char **result, int last_exit_status)
@@ -43,8 +39,7 @@ int	dollar_expand(char *word, char **result, int last_exit_status)
 		add_str(result, ft_itoa(last_exit_status));
 		return (2);
 	}
-	while (word[len] != '\0' && !ft_strchr(" \t\n\'\"$", word[len]))
-		len++;
+	len = get_var_len(word);
 	if (len == 0)
 	{
 		add_str(result, ft_strdup("$"));
