@@ -35,6 +35,7 @@ int	execute_pipe_parent(pid_t pid[2])
 	int	signo;
 	int	result;
 
+	result = 0;
 	waitpid(pid[0], &status, 0);
 	waitpid(pid[1], &status, 0);
 	if (WIFSIGNALED(status))
