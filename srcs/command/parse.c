@@ -47,9 +47,9 @@ t_cmd	*make_cmd(t_list *token_list)
 		token = token_list->content;
 		if (token->type == w_pipe)
 			break ;
-		if (token->type == w_word)
+		if (token->word != NULL && token->type == w_word)
 			ft_lstadd_back(&cmd->args, ft_lstnew(ft_strdup(token->word)));
-		else
+		else if (token->word != NULL)
 		{
 			redirection = make_redirection(token_list);
 			ft_lstadd_back(&cmd->redirects, ft_lstnew(redirection));

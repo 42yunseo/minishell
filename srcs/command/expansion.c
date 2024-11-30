@@ -102,6 +102,11 @@ void	expand_word(t_token *token, int last_exit_status)
 		}
 	}
 	free(token->word);
+	if (result == NULL || *result == '\0')
+	{
+		free(result);
+		result = NULL;
+	}
 	token->word = result;
 }
 

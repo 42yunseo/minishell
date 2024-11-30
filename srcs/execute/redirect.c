@@ -89,7 +89,6 @@ int	execute_redirect(t_list *redirect_list)
 	{
 		cur_redirect = redirect_list->content;
 		if (cur_redirect->type == r_heredoc)
-			//result = do_heredoc(cur_redirect->filename);
 			result = do_heredoc(cur_redirect);
 		else
 			result = do_redirect(cur_redirect);

@@ -140,19 +140,16 @@ void	heredoc_input(t_redirect *heredoc)
 {
 	char	*line;
 	char	*delimeter;
-	size_t	len;
 
 	delimeter = heredoc->filename;
 	heredoc->filename = NULL;
-	len = ft_strlen(delimeter);
 	line = NULL;
 	while (1)
 	{
 		line = readline("> ");
-		//printf("line : %s\n", line);
 		if (line == NULL)
 			break ;
-		if (ft_strncmp(delimeter, line, len) == 0)
+		if (ft_strcmp(delimeter, line) == 0)
 		{
 			free(line);
 			break ;

@@ -14,8 +14,6 @@
 #include "builtin.h"
 #include <unistd.h>
 
-#include <stdio.h>
-
 int	execute_cmd(t_cmd *cmd)
 {
 	int		result;

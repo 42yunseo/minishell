@@ -117,6 +117,10 @@ int			execute_cmd(t_cmd *cmd);
 // simple.c
 int			execute_simple(t_list *args);
 
+// path.c
+char		*find_cmd_path(const char *cmd);
+char		*get_cmd_path(const char *cmd);
+
 // pipe.c
 int			execute_pipe(t_pipe *pipe_node);
 
@@ -147,5 +151,6 @@ t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list);
 void		free_argv(char **args);
 char		**list_to_argv(t_list *list);
 void		add_str(char **src, char *part);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

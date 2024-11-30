@@ -71,7 +71,8 @@ size_t	get_token_len(const char *line)
 			while (line[len] != '\0' && line[len] != symbol)
 				len++;
 		}
-		len++;
+		if (line[len] != '\0')
+			len++;
 	}
 	return (len);
 }
@@ -104,7 +105,10 @@ void	token_free(void *ptr)
 	t_token	*token;
 
 	token = ptr;
-	free(token->word);
+	if (token == NULL)
+		return ;
+	if (token->word != NULL)
+		free(token->word);
 	token->word = NULL;
 	free(token);
 	token = NULL;

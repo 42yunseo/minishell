@@ -21,22 +21,29 @@
 #include <string.h>
 #include <errno.h>
 
+void	check_exist(char *cmd_path, char *cmd)
+{
+	if (access(cmd_path, F_OK) == -1)
+	{
+		if (cmd_path == NULL)
+		{
+			ft_putstr_fd(cmd, STDERR_FILENO);
+			ft_putendl_fd(": command not found", STDERR_FILENO);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			perror(cmd);
+		}
+		exit (127);
+	}
+}
+
 void	execute_child(char **argv, char *cmd_path, char **envp)
 {
 	struct stat	stat_buf;
 
-	if (access(cmd_path, F_OK) == -1)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		if (cmd_path == NULL)
-		{
-			ft_putstr_fd(*argv, STDERR_FILENO);
-			ft_putendl_fd(": command not found", STDERR_FILENO);
-		}
-		else
-			perror(*argv);
-		exit (127);
-	}
+	check_exist(cmd_path, *argv);
 	set_signals(SIG_DEFAULT, SIG_DEFAULT);
 	execve(cmd_path, argv, envp);
 	stat(cmd_path, &stat_buf);
@@ -68,47 +75,6 @@ int	execute_parent(pid_t pid)
 		result = WEXITSTATUS(status);
 	set_signals(SIG_SHELL, SIG_IGNORE);
 	return (result);
-}
-
-char	*find_cmd_path(const char *cmd)
-{
-	char	**paths;
-	char	*cmd_path;
-	int		i;
-	char	*tmp;
-
-	paths = ft_split(ft_getenv("PATH"), ':');
-	if (paths == NULL)
-		return (NULL);
-	i = 0;
-	cmd_path = ft_strjoin("/", cmd);
-	while (paths[i] != NULL)
-	{
-		tmp = ft_strjoin(paths[i++], cmd_path);
-		if (access(tmp, X_OK) != -1)
-		{
-			free(cmd_path);
-			free_argv(paths);
-			return (tmp);
-		}
-		free(tmp);
-	}
-	free(cmd_path);
-	free_argv(paths);
-	return (NULL);
-}
-
-char	*get_cmd_path(const char *cmd)
-{
-	char	*cmd_path;
-
-	if (ft_strchr(cmd, '/') != NULL && access(cmd, X_OK) != -1)
-		return (ft_strdup(cmd));
-	if (ft_strchr(cmd, '/') != NULL)
-		cmd_path = ft_strdup(cmd);
-	else
-		cmd_path = find_cmd_path(cmd);
-	return (cmd_path);
 }
 
 int	execute_simple(t_list *args)

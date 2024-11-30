@@ -37,7 +37,7 @@ COMMAND_DIR = ./srcs/command/
 COMMANDS = command eval token expansion type ast syntax dispose parse
 
 EXECUTE_DIR = ./srcs/execute/
-EXECUTES = execute simple pipe redirect heredoc utils
+EXECUTES = execute simple path pipe redirect heredoc utils
 
 SIGNAL_DIR = ./srcs/signal/
 SIGNALS = signal
