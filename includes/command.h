@@ -39,6 +39,8 @@ enum e_redirect_type
 	r_heredoc
 };
 
+// in heredoc : filename is delimeter in parse phase
+// and then filename is heredoc buffer in excute phase
 typedef struct s_redirect
 {
 	enum e_redirect_type	type;
@@ -124,7 +126,8 @@ t_redirect	*make_redirection(t_list *token_list);
 void		free_redirection(void *redirect);
 
 // heredoc.c
-int			do_heredoc(char *delimiter);
+void		heredoc_input(t_redirect *heredoc);
+int			do_heredoc(t_redirect *heredoc);
 
 // path.c
 void		free_argv(char **args);

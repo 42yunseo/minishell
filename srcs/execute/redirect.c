@@ -44,13 +44,15 @@ t_redirect	*make_redirection(t_list *token_list)
 	redir = (t_redirect *)malloc(sizeof(t_redirect));
 	if (redir == NULL)
 		return (NULL);
+	ft_memset(redir, 0, sizeof(t_redirect));
 	token = token_list->content;
 	type = token->type;
-	redir->fd = 0;
 	token_list = token_list->next;
 	token = token_list->content;
 	redir->filename = ft_strdup(token->word);
 	set_redirection_type_flag(type, redir);
+	if (redir->type == r_heredoc)
+		heredoc_input(redir);
 	return (redir);
 }
 
@@ -87,7 +89,8 @@ int	execute_redirect(t_list *redirect_list)
 	{
 		cur_redirect = redirect_list->content;
 		if (cur_redirect->type == r_heredoc)
-			result = do_heredoc(cur_redirect->filename);
+			//result = do_heredoc(cur_redirect->filename);
+			result = do_heredoc(cur_redirect);
 		else
 			result = do_redirect(cur_redirect);
 		if (result != 0)
