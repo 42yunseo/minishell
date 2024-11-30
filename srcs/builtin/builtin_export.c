@@ -31,8 +31,7 @@ int	export_name_check(char *str)
 	{
 		if (str[i] == '=')
 			return (i);
-		else if (ft_isdigit(str[i]) || ft_isalpha(str[i]) || \
-		str[i] == '_' || str[i] == ' ')
+		else if (ft_isdigit(str[i]) || ft_isalpha(str[i]) || str[i] == '_')
 			i++;
 		else
 			return (-1);
@@ -52,13 +51,31 @@ void	env_setting(char *str, int idx)
 	free(value);
 }
 
+void	print_export(void *content)
+{
+	t_envp_node	*node;
+
+	node = content;
+	if (node == NULL)
+		return ;
+	if (ft_strcmp(node->key, "_") == 0)
+		return ;
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	ft_putstr_fd(node->key, STDOUT_FILENO);
+	ft_putchar_fd(':', STDOUT_FILENO);
+	ft_putchar_fd('"', STDOUT_FILENO);
+	ft_putstr_fd(node->value, STDOUT_FILENO);
+	ft_putchar_fd('"', STDOUT_FILENO);
+	ft_putendl_fd("", STDOUT_FILENO);
+}
+
 int	builtin_export(t_list *list)
 {
 	char	*str;
 	int		idx;
 
 	if (list == NULL)
-		return (builtin_env(NULL));
+		ft_lstiter(*get_envp(), print_export);
 	while (list != NULL)
 	{
 		str = list->content;
@@ -71,7 +88,7 @@ int	builtin_export(t_list *list)
 		if (idx <= 0)
 		{
 			print_export_err(str);
-			return (1);
+			return (EXECUTE_FAILURE);
 		}
 		env_setting(str, idx);
 		list = list->next;

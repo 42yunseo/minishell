@@ -17,13 +17,6 @@ CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -lreadline -lft -Llibft
 IFLAGS = -Ilibft/ -Iincludes/
 
-UNAME_S := $(shell uname -s)
-
-ifeq ($(UNAME_S), Darwin)
-    LFLAGS = -lreadline -lft -Llibft -L/opt/homebrew/opt/readline/lib
-    IFLAGS = -Ilibft/ -Iincludes/ -I/opt/homebrew/opt/readline/include
-endif
-
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
