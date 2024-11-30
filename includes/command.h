@@ -130,7 +130,7 @@ t_redirect	*make_redirection(t_list *token_list);
 void		free_redirection(void *redirect);
 
 // heredoc.c
-void		heredoc_input(t_redirect *heredoc);
+int			heredoc_input(t_redirect *heredoc);
 int			do_heredoc(t_redirect *heredoc);
 
 // path.c
