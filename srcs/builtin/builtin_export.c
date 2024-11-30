@@ -20,11 +20,41 @@ void	print_export_err(char *str)
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 }
 
+int	export_name_check(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(str[0]))
+		return (-1);
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (i);
+		else if (ft_isdigit(str[i]) || ft_isalpha(str[i]) || \
+		str[i] == '_' || str[i] == ' ')
+			i++;
+		else
+			return (-1);
+	}
+	return (i);
+}
+
+void	env_setting(char *str, int idx)
+{
+	char	*name;
+	char	*value;
+
+	name = ft_substr(str, 0, idx);
+	value = ft_strdup(&str[idx + 1]);
+	ft_setenv(name, value);
+	free(name);
+	free(value);
+}
+
 int	builtin_export(t_list *list)
 {
 	char	*str;
-	char	*name;
-	char	*value;
 	int		idx;
 
 	if (list == NULL)
@@ -32,17 +62,18 @@ int	builtin_export(t_list *list)
 	while (list != NULL)
 	{
 		str = list->content;
-		idx = get_equal_idx(str);
-		if (idx == -1)
+		idx = export_name_check(str);
+		if (ft_strchr(str, '=') == NULL && idx >= 0)
+		{
+			list = list->next;
+			continue ;
+		}
+		if (idx <= 0)
 		{
 			print_export_err(str);
 			return (1);
 		}
-		name = ft_substr(str, 0, idx);
-		value = ft_strdup(&str[idx + 1]);
-		ft_setenv(name, value);
-		free(name);
-		free(value);
+		env_setting(str, idx);
 		list = list->next;
 	}
 	return (EXECUTE_SUCCESS);
