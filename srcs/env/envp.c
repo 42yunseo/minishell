@@ -71,7 +71,10 @@ void	init_envp(char **envp)
 	{
 		idx = get_equal_idx(*envp);
 		name = ft_substr(*envp, 0, idx);
-		value = ft_strdup(*(envp) + idx + 1);
+		if (ft_strcmp(name, "SHLVL") == 0)
+			value = ft_itoa(ft_atoi((*envp) + idx + 1) + 1);
+		else
+			value = ft_strdup(*(envp) + idx + 1);
 		ft_lstadd_back(head, ft_lstnew(make_envp_node(name, value)));
 		free(name);
 		free(value);

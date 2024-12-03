@@ -6,7 +6,7 @@
 #    By: yunseo <yunseo@student.42gyeongsan.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/24 03:55:21 by yunseo            #+#    #+#              #
-#    Updated: 2024/03/08 21:06:12 by yunseo           ###   ########.fr        #
+#    Updated: 2024/12/03 16:09:00 by yunseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,19 +60,22 @@ LIBFT_SRCS_B =  ft_lstnew_bonus.c \
 				ft_lstiter_bonus.c \
 				ft_lstmap_bonus.c
 
+EXTENDED_LIBFT_SRCS = ft_strcmp.c
+
 LIBFT_OBJS = ${LIBFT_SRCS:.c=.o}
 LIBFT_OBJS_B = ${LIBFT_SRCS_B:.c=.o}
+E_LIBFT_OBJS = ${EXTENDED_LIBFT_SRCS:.c=.o}
 
 all : ${NAME}
 
-${NAME} : ${LIBFT_OBJS} ${LIBFT_OBJS_B}
-	${AR} -rc ${NAME} ${LIBFT_OBJS} ${LIBFT_OBJS_B}
+${NAME} : ${LIBFT_OBJS} ${LIBFT_OBJS_B} ${E_LIBFT_OBJS}
+	${AR} -rc ${NAME} ${LIBFT_OBJS} ${LIBFT_OBJS_B} ${E_LIBFT_OBJS}
 
 %.o : %.c
 	${CC} ${CFLAGS} -c $^ -o $@
 
 clean :
-	rm -f ${LIBFT_OBJS} ${LIBFT_OBJS_B}
+	rm -f ${LIBFT_OBJS} ${LIBFT_OBJS_B} ${E_LIBFT_OBJS}
 
 fclean : clean
 	rm -f ${NAME}

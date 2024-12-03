@@ -36,9 +36,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	int	exit_status;
 
-//	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || 
-//	!isatty(STDERR_FILENO))
-//		return (1);
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || \
+	!isatty(STDERR_FILENO))
+		return (1);
 	exit_status = 0;
 	use_args(argc, argv);
 	init_signal();

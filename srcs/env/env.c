@@ -17,18 +17,16 @@
 
 char	*ft_getenv(const char *name)
 {
-	size_t		len;
 	t_list		*envp;
 	t_envp_node	*node;
 
 	if (name == NULL || *name == '\0')
 		return (NULL);
 	envp = *get_envp();
-	len = ft_strlen(name);
 	while (envp != NULL)
 	{
 		node = envp->content;
-		if (ft_strncmp(node->key, name, len) == 0)
+		if (ft_strcmp(node->key, name) == 0)
 			return (node->value);
 		envp = envp->next;
 	}
@@ -37,18 +35,16 @@ char	*ft_getenv(const char *name)
 
 t_list	*get_name_pos(const char *name)
 {
-	size_t		len;
 	t_list		*pos;
 	t_list		*envp;
 	t_envp_node	*node;
 
-	len = ft_strlen(name);
 	envp = *get_envp();
 	pos = envp;
 	while (pos)
 	{
 		node = (t_envp_node *) pos->content;
-		if (ft_strncmp(node->key, name, len) == 0)
+		if (ft_strcmp(node->key, name) == 0)
 			return (pos);
 		pos = pos->next;
 	}
@@ -80,26 +76,24 @@ int	ft_setenv(const char *name, const char *value)
 
 int	ft_unsetenv(const char *name)
 {
-	t_list		*fast;
-	t_list		*slow;
+	t_list		*head;
+	t_list		*tail;
 	t_envp_node	*node;
-	int			len;
 
 	if (name == NULL || *name == '\0')
 		return (-1);
-	len = ft_strlen(name);
-	slow = *get_envp();
-	node = slow->content;
-	while (slow->next && node && ft_strncmp(node->key, name, len) != 0)
+	head = *get_envp();
+	node = head->content;
+	while (head->next && node && ft_strcmp(node->key, name) != 0)
 	{
-		fast = slow;
-		slow = slow->next;
-		node = slow->content;
+		tail = head;
+		head = head->next;
+		node = head->content;
 	}
-	if (slow == NULL)
+	if (head == NULL)
 		return (-1);
-	fast->next = slow->next;
+	tail->next = head->next;
 	free_envp_node(node);
-	free(slow);
+	free(head);
 	return (0);
 }

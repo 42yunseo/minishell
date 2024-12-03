@@ -151,6 +151,5 @@ t_ast_node	*parse_pipe(t_ast_node *l_node, t_list *token_list);
 void		free_argv(char **args);
 char		**list_to_argv(t_list *list);
 void		add_str(char **src, char *part);
-int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

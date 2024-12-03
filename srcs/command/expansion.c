@@ -14,14 +14,14 @@
 #include "libft.h"
 #include "command.h"
 
-#include <stdio.h>
-
 int	get_var_len(char *word)
 {
 	int	len;
 
 	len = 0;
-	while (word[len] != '\0' && !ft_strchr(" \t\n\'\"$", word[len]))
+	if (ft_isdigit(word[len]))
+		return (1);
+	while (word[len] != '\0' && (ft_isalnum(word[len]) || word[len] == '_'))
 		len++;
 	return (len);
 }

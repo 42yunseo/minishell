@@ -31,7 +31,7 @@ int	export_name_check(char *str)
 	{
 		if (str[i] == '=')
 			return (i);
-		else if (ft_isdigit(str[i]) || ft_isalpha(str[i]) || str[i] == '_')
+		else if (ft_isalnum(str[i]) || str[i] == '_')
 			i++;
 		else
 			return (-1);
@@ -62,7 +62,7 @@ void	print_export(void *content)
 		return ;
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(node->key, STDOUT_FILENO);
-	ft_putchar_fd(':', STDOUT_FILENO);
+	ft_putchar_fd('=', STDOUT_FILENO);
 	ft_putchar_fd('"', STDOUT_FILENO);
 	ft_putstr_fd(node->value, STDOUT_FILENO);
 	ft_putchar_fd('"', STDOUT_FILENO);
