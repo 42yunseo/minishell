@@ -74,26 +74,35 @@ int	ft_setenv(const char *name, const char *value)
 	return (0);
 }
 
+void	remove_envp(t_list *prev, t_list *target)
+{
+	if (target == NULL)
+		return ;
+	if (prev == NULL)
+		*get_envp() = target->next;
+	else
+		prev->next = target->next;
+	ft_lstdelone(target, free_envp_node);
+}
+
 int	ft_unsetenv(const char *name)
 {
-	t_list		*head;
-	t_list		*tail;
+	t_list		*ptr;
+	t_list		*prev;
 	t_envp_node	*node;
 
-	if (name == NULL || *name == '\0')
+	if (name == NULL || *name == '\0' || ft_strchr(name, '=') != NULL)
 		return (-1);
-	head = *get_envp();
-	node = head->content;
-	while (head->next && node && ft_strcmp(node->key, name) != 0)
+	ptr = *get_envp();
+	prev = NULL;
+	while (ptr != NULL)
 	{
-		tail = head;
-		head = head->next;
-		node = head->content;
+		node = ptr->content;
+		if (ft_strcmp(node->key, name) == 0)
+			break ;
+		prev = ptr;
+		ptr = ptr->next;
 	}
-	if (head == NULL)
-		return (-1);
-	tail->next = head->next;
-	free_envp_node(node);
-	free(head);
+	remove_envp(prev, ptr);
 	return (0);
 }
